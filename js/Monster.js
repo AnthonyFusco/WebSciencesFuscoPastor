@@ -36,18 +36,21 @@ function Monster(x, y, color, mw, mh, w, h) {
         }
     };
 
-    //todo: wrong
-    const isCollideWithOtherMonster = function (others) {
-        //doesn't work
-        others.forEach(function (other) {
-            if (isCollide(this, other)) {
-                api.vx = 0;
-                api.vy = 0;
-            }
-        });
-    };
-
-    api.move = function () {
+    api.move = function (inputStates, ctx) {
+        if (inputStates.left) {
+            api.vx = -10;
+        }
+        if (inputStates.up) {
+            api.vy = -50;
+        }
+        if (inputStates.right) {
+            api.vx = 10;
+        }
+        if (inputStates.down) {
+           // api.vy = 50;
+        }
+        if (inputStates.space) {
+        }
         api.vy += api.g;
         api.x += api.vx;
         api.y += api.vy;
@@ -70,25 +73,6 @@ function Monster(x, y, color, mw, mh, w, h) {
     };
     api.collideEngine = function (others) {
         isInWindow();
-        //isCollideWithOtherMonster(others);// doesn't work
-    };
-    api.mouseDrag = function (event) {
-        if (api.isSelect) {
-            api.x = event.x - api.w / 2;
-            api.y = event.y - api.h / 2;
-            api.mouseSpeedX = event.movementX;
-            api.mouseSpeedY = event.movementY;
-            return true;
-        }
-    };
-    api.onSelection = function () {
-        if (api.isSelect) {
-            api.isSelect = false;
-            api.g = 5;
-            api.vx = api.mouseSpeedX;
-            api.vy = api.mouseSpeedY;
-        }
-        return api.isSelect;
     };
 
     return api;
