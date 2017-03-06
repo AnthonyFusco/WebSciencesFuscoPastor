@@ -1,6 +1,6 @@
 //////////////////////GAME FRAMEWORK/////////////////////////////////////////////////////////////////////////////////////
 window.addEventListener("load", init);
-
+var anim;
 function init() {
     let game = new GameFramework();
     game.start();
@@ -18,12 +18,7 @@ const GameFramework = function () {
 
     function animate(time) {
         ctx.clearRect(0, 0, w, h);
-
-        monsters.forEach(function (monster) {
-            monster.draw(ctx);
-            monster.collideEngine(monsters);
-            monster.move(inputStates);
-        });
+        anim.renderMoving("avancer", ctx, 100, 100, 1);
     }
 
     const measureFPS = function (newTime) {
@@ -59,8 +54,6 @@ const GameFramework = function () {
         w = canvas.width;
         h = canvas.height;
 
-        //create all the monsters
-        initMonsters(w, h);
 
         //add the listener to the main, window object, and update the states
         window.addEventListener('keydown', function(event){
@@ -94,6 +87,9 @@ const GameFramework = function () {
 
         fpsContainer = document.createElement('div');
         document.body.appendChild(fpsContainer);
+
+
+        anim = new Animation("woman");
         requestAnimationFrame(mainLoop);
     };
 
@@ -103,12 +99,3 @@ const GameFramework = function () {
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-function initMonsters(w, h) {
-    for (let i = 0; i < nbMonsters; i++) {
-        monsters.push(Monster(i * 100, i * 100, `rgb(${1},${1},${i * 30})`, 100, 100, w, h))
-    }
-}
-
-let nbMonsters = 10;
-const monsters = [];

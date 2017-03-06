@@ -1,0 +1,11 @@
+{
+  "entity": "woman",
+  "animations": [
+    {
+      "nom": "avancer",
+      "width": 48,
+      "height": 92,
+      "nbFrames" : 13
+    }
+  ]
+}
