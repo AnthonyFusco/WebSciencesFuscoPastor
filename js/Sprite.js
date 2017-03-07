@@ -2,15 +2,13 @@ function AnimationsSet(img) {
     let animations = {};
 
     let initSprites = function(data, spritesheet) {
-        let i = 0;
         data.animations.forEach(animation => {
-            var yLineForCurrentDir = i * animation.height;
+            var yLineForCurrentDir = animation.line * animation.height;
             var sprite = new Sprite(spritesheet, 0, yLineForCurrentDir,
                 animation.width, animation.height,
                 animation.nbFrames,
                 animation.nbTicksBetweenRedraws);
             animations[animation.nom] = sprite;
-            i++;
         });
     };
 

@@ -2,7 +2,24 @@
   "entity": "woman",
   "animations": [
     {
+      "line":0,
       "nom": "avancer",
+      "width": 48,
+      "height": 92,
+      "nbFrames" : 13,
+      "nbTicksBetweenRedraws" : 10
+    },
+    {
+      "line":2,
+      "nom": "gauche",
+      "width": 48,
+      "height": 92,
+      "nbFrames" : 13,
+      "nbTicksBetweenRedraws" : 10
+    },
+    {
+      "line":6,
+      "nom": "droit",
       "width": 48,
       "height": 92,
       "nbFrames" : 13,
