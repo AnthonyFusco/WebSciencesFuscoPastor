@@ -18,7 +18,7 @@ const GameFramework = function () {
 
     function animate(time) {
         ctx.clearRect(0, 0, w, h);
-        anim.renderMoving("avancer", ctx, 100, 100, 1);
+        //anim.renderMoving("avancer", ctx, 100, 100, 1);
 
         monsters.forEach(function (monster) {
             monster.draw(ctx);
@@ -97,7 +97,7 @@ const GameFramework = function () {
         document.body.appendChild(fpsContainer);
 
 
-        anim = new Animation("woman");
+        //anim = new Animation("woman");
         requestAnimationFrame(mainLoop);
     };
 

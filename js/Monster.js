@@ -17,6 +17,7 @@ function Monster(x, y, color, mw, mh, w, h) {
     api.color = color;
     api.w = mw;
     api.h = mh;
+    anim = new Animation("woman");
 
     //bad
     const isInWindow = function () {
@@ -65,10 +66,11 @@ function Monster(x, y, color, mw, mh, w, h) {
         ctx.rotate(api.angle);
 
         // couleur en CSS3
-        ctx.fillStyle = api.color;
+       /* ctx.fillStyle = api.color;
         ctx.fillRect(0, 0, api.w, api.h);
         ctx.fillRect(0, 0, api.w, api.h);
-
+        */
+        anim.renderMoving("avancer", ctx, 100, 100, 1);
         ctx.restore();
     };
     api.collideEngine = function (others) {
