@@ -57,7 +57,7 @@ const GameFramework = function () {
         w = canvas.width;
         h = canvas.height;
 
-        //create all the monsters
+        //create all the players
         initMonsters(w, h);
 
         /**

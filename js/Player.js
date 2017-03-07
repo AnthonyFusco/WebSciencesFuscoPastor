@@ -2,7 +2,7 @@
  * Created by Anthony Fusco on 27/02/2017.
  */
 // using functional inheritance
-function Monster(x, y, color, w, h, anim) {
+function Player(x, y, color, w, h, anim) {
     let api = {};
 
     api.x = x;
@@ -40,7 +40,7 @@ function Monster(x, y, color, w, h, anim) {
             api.vx = -10;
         }
         if (inputStates.up) {
-            api.y = 100;
+            api.vy = -50;
         }
         if (inputStates.right) {
             api.vx = 10;
@@ -68,7 +68,7 @@ function Monster(x, y, color, w, h, anim) {
         ctx.fillRect(0, 0, api.w, api.h);
         ctx.fillRect(0, 0, api.w, api.h);
         */
-        anim.renderMoving("avancer", ctx, 100, 100, 1);
+        anim.renderMoving("avancer", ctx, 0, 0, 1);
         ctx.restore();
     };
     api.collideEngine = function (others) {

@@ -29,10 +29,10 @@ const GameFramework = function () {
         ctx.clearRect(0, 0, w, h);
         //anim.renderMoving("avancer", ctx, 100, 100, 1);
 
-        monsters.forEach(function (monster) {
-            monster.draw(ctx);
-            monster.collideEngine(monsters);
-            monster.move(inputStates);
+        players.forEach(function (player) {
+            player.draw(ctx);
+            player.collideEngine(players);
+            player.move(inputStates);
         });
     }
 
@@ -69,8 +69,8 @@ const GameFramework = function () {
         w = canvas.width;
         h = canvas.height;
 
-        //create all the monsters
-        initMonsters(w, h);
+        //create all the players
+        initPlayers(w, h);
 
         //add the listener to the main, window object, and update the states
         window.addEventListener('keydown', function(event){
@@ -115,13 +115,13 @@ const GameFramework = function () {
     };
 };
 
-function initMonsters(w, h) {
-    for (let i = 0; i < nbMonsters; i++) {
-        monsters.push(Monster(i * 100, i * 100, `rgb(${1},${1},${i * 30})`, w, h, animations[0]))
+function initPlayers(w, h) {
+    for (let i = 0; i < nbPlayers; i++) {
+        players.push(Player(i * 100, i * 100, `rgb(${1},${1},${i * 30})`, w, h, animations[0]))
     }
 }
 
-let nbMonsters = 10;
-const monsters = [];
+let nbPlayers = 10;
+const players = [];
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
