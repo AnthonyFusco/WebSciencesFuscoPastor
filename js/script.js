@@ -117,7 +117,8 @@ const GameFramework = function () {
 
 function initPlayers(w, h) {
     for (let i = 0; i < nbPlayers; i++) {
-        players.push(Player(i * 100, i * 100, `rgb(${1},${1},${i * 30})`, w, h, animations[0]))
+        //players.push(Player(i * 100, i * 100, `rgb(${1},${1},${i * 30})`, w, h, animations[0]))
+        players.push(Player(i * 100, i * 100, w, h, animations[0]))
     }
 }
 
