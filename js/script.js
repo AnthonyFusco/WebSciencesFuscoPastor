@@ -4,7 +4,7 @@ var animations = [];
 function init() {
     let game = new GameFramework();
 
-    animations.push(new Animation("woman"));
+    animations.push(new AnimationsSet("woman"));
 
     var promesses = animations.map(function(animation){
         return animation.getRequest();
@@ -106,7 +106,7 @@ const GameFramework = function () {
         document.body.appendChild(fpsContainer);
 
 
-        //anim = new Animation("woman");
+        //anim = new AnimationsSet("woman");
         requestAnimationFrame(mainLoop);
     };
 
