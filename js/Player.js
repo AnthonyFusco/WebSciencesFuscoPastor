@@ -11,6 +11,13 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     let animName = "avancer";
     let w = anim.animations[animName].width;
     let h = anim.animations[animName].height;
+
+    let animParams = {
+        currentFrame : 0,
+        nbCurrentTicks : 0
+    };
+
+
     //bad
     let isInWindow = function () {
         if (((x + w) > canvasWidth)) {
@@ -58,7 +65,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
         */
-        anim.renderMoving(animName, ctx, 0, 0, 1);
+        anim.renderMoving(animName, ctx, 0, 0, 1, animParams);
         ctx.restore();
     };
     let collideEngine = function (others) {

@@ -35,8 +35,8 @@ function AnimationsSet(img) {
     });
 
 
-    let renderMoving = function(nom, ctx, x, y, scale){
-        animations[nom].renderMoving(ctx, x, y, scale)
+    let renderMoving = function(nom, ctx, x, y, scale, owner){
+        animations[nom].renderMoving(ctx, x, y, scale, owner)
     };
 
     let render = function (nom, ctx, x, y, scale){
@@ -64,22 +64,21 @@ function SpriteImage(img, x, y, width, height) {
 
 function Sprite(spritesheet, x, y, width, height, nbImages, nbFramesOfAnimationBetweenRedraws) {
     let spriteImages = [];
-    let currentFrame = 0;
-    let nbCurrentTicks = 0;
+
 
     for(var i = 0; i < nbImages; i++) {
         spriteImages[i] = new SpriteImage(spritesheet, x + i * width, y, width, height);
     }
 
-    let renderMoving = function(ctx, x, y, scale) {
-        spriteImages[currentFrame].render(ctx, x, y, scale);
-        nbCurrentTicks++;
-        if(nbCurrentTicks > nbFramesOfAnimationBetweenRedraws) {
-            currentFrame++;
-            if(currentFrame == nbImages) {
-                currentFrame = 0;
+    let renderMoving = function(ctx, x, y, scale, owner) {
+        spriteImages[owner.currentFrame].render(ctx, x, y, scale);
+        owner.nbCurrentTicks++;
+        if(owner.nbCurrentTicks > nbFramesOfAnimationBetweenRedraws) {
+            owner.currentFrame++;
+            if(owner.currentFrame == nbImages) {
+                owner.currentFrame = 0;
             }
-            nbCurrentTicks = 0;
+            owner.nbCurrentTicks = 0;
         }
     };
     this.render = function(ctx, x, y, scale) {
