@@ -1,9 +1,18 @@
 //////////////////////GAME FRAMEWORK/////////////////////////////////////////////////////////////////////////////////////
 window.addEventListener("load", init);
-var anim;
+var animations = [];
 function init() {
     let game = new GameFramework();
-    game.start();
+
+    animations.push(new Animation("woman"));
+
+    var promesses = animations.map(function(animation){
+        return animation.getRequest();
+    });
+
+    Promise.all(promesses).then(() => {
+        game.start();
+    })
 }
 
 const GameFramework = function () {
@@ -108,7 +117,7 @@ const GameFramework = function () {
 
 function initMonsters(w, h) {
     for (let i = 0; i < nbMonsters; i++) {
-        monsters.push(Monster(i * 100, i * 100, `rgb(${1},${1},${i * 30})`, 100, 100, w, h))
+        monsters.push(Monster(i * 100, i * 100, `rgb(${1},${1},${i * 30})`, w, h, animations[0]))
     }
 }
 

@@ -2,7 +2,7 @@
  * Created by Anthony Fusco on 27/02/2017.
  */
 // using functional inheritance
-function Monster(x, y, color, mw, mh, w, h) {
+function Monster(x, y, color, w, h, anim) {
     let api = {};
 
     api.x = x;
@@ -15,10 +15,8 @@ function Monster(x, y, color, mw, mh, w, h) {
     api.isSelect = false;
     api.angle = 0.0;
     api.color = color;
-    api.w = mw;
-    api.h = mh;
-    anim = new Animation("woman");
-
+    api.w = anim.animations["avancer"].width;
+    api.h = anim.animations["avancer"].height;
     //bad
     const isInWindow = function () {
         if (((api.x + api.w) > w)) {
@@ -42,7 +40,7 @@ function Monster(x, y, color, mw, mh, w, h) {
             api.vx = -10;
         }
         if (inputStates.up) {
-            api.vy = -50;
+            api.y = 100;
         }
         if (inputStates.right) {
             api.vx = 10;

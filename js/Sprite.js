@@ -1,19 +1,17 @@
 function readTextFile(file, callback) {
-    var rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType("application/json");
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function() {
-        if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText);
-        }
-    }
-    rawFile.send(null);
+    return new Promise(function(resolve, reject){
+        fetch(file)
+            .then((response) => {
+                return response.json();
+            })
+            .then(function(json) {
+                callback(json);
+            })});
 }
 
 function Animation(img) {
     var animations = {};
-
-    var initSprites = function(data) {
+    var initSprites = function(data, spritesheet) {
         var i = 0;
         data.animations.forEach(animation => {
             var yLineForCurrentDir = i * animation.height;
@@ -26,33 +24,45 @@ function Animation(img) {
         });
     }
 
+    var request = new Promise(function(resolve, reject){
+        var spritesheet = new Image();
+        spritesheet.onload = function() {
+            readTextFile(`./sprites/${img}.json`, function(json){
+                initSprites(json, spritesheet);
+                resolve();
+            });
+        };
+        spritesheet.src = `./sprites/${img}.png`;
+    });
 
-    var spritesheet = new Image();
-    spritesheet.src = `./sprites/${img}.png`;
+    /*var getWidth = function(nom){
+        return animations[nom].width;
+    }
 
-    spritesheet.onload = function() {
-        readTextFile(`./sprites/${img}.json`, function(text){
-            var data = JSON.parse(text);
-            initSprites(data);
-        });
-    };
+    var getHeight = function(nom){
+        return animations[nom].height;
+    }*/
+
 
     var renderMoving = function(nom, ctx, x, y, scale){
-        if (typeof animations[nom] !== "undefined"){
-            animations[nom].renderMoving(ctx, x, y, scale)
-        }
+        animations[nom].renderMoving(ctx, x, y, scale)
     }
 
     var render = function (nom, ctx, x, y, scale){
-        if (typeof animations[nom] !== "undefined"){
-            animations[nom].render(ctx, x, y, scale);
-        }
+        animations[nom].render(ctx, x, y, scale);
     }
 
-    return { animations : animations, renderMoving : renderMoving, render : render };
+    var getRequest = function(){
+        return request;
+    }
+
+    return { animations : animations, renderMoving : renderMoving, render : render, getRequest:getRequest/*, getHeight:getHeight, getWidth:getWidth*/ };
 
 
 }
+
+
+
 
 function SpriteImage(img, x, y, width, height) {
     this.img = img;
@@ -76,6 +86,8 @@ function Sprite(spritesheet, x, y, width, height, nbImages, nbFramesOfAnimationB
     this.nbFrames = nbImages;
     this.nbTicksBetweenRedraws = nbFramesOfAnimationBetweenRedraws;
     this.nbCurrentTicks=0;
+    this.width = width;
+    this.height = height;
 
     for(var i = 0; i < nbImages; i++) {
         this.spriteImages[i] = new SpriteImage(spritesheet, x + i * width, y, width, height);
