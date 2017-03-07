@@ -8,13 +8,19 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     let vy = 0;
     let g = 10;
     let angle = 0.0;
-    let animName = "avancer";
-    let w = anim.animations[animName].width;
-    let h = anim.animations[animName].height;
+    let animName = "forward";
+
+    let getSpriteWidth = function() {
+        return anim.animations[animName].width;
+    };
+    let getSpriteHeigth = function() {
+        return anim.animations[animName].height;
+    };
+
     //bad
     let isInWindow = function () {
-        if (((x + w) > canvasWidth)) {
-            x = canvasWidth - w;
+        if (((x + getSpriteWidth()) > canvasWidth)) {
+            x = canvasWidth - getSpriteWidth();
             vx = -vx;
             vy = 0;
         } else if (x < 0) {
@@ -22,8 +28,8 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
             vx = -vx;
             vy = 0;
         }
-        if ((y + h) >= canvasHeight) {
-            y = canvasHeight - h;
+        if ((y + getSpriteHeigth()) >= canvasHeight) {
+            y = canvasHeight - getSpriteHeigth();
             vx = 0;
             vy = 0;
         }
@@ -32,15 +38,18 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     let move = function (inputStates, ctx) {
         if (inputStates.left) {
             vx = -10;
+            animName = "left";
         }
         if (inputStates.up) {
             vy = -50;
         }
         if (inputStates.right) {
             vx = 10;
+            animName = "right";
         }
         if (inputStates.down) {
            // vy = 50;
+            animName = "forward";
         }
         if (inputStates.space) {
         }
@@ -48,19 +57,21 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         x += vx;
         y += vy;
     };
+
     let draw = function (ctx) {
         ctx.save();
 
         ctx.translate(x, y);
         ctx.rotate(angle);
 
-       /* ctx.fillStyle = color;
-        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-        */
-        anim.renderMoving(animName, ctx, 0, 0, 1);
+        if (vx == 0) {
+            anim.render(animName, ctx, 0, 0, 1);
+        } else {
+            anim.renderMoving(animName, ctx, 0, 0, 1);
+        }
         ctx.restore();
     };
+
     let collideEngine = function (others) {
         isInWindow();
     };

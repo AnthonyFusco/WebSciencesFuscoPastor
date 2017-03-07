@@ -3,7 +3,7 @@
   "animations": [
     {
       "line":0,
-      "nom": "avancer",
+      "nom": "forward",
       "width": 48,
       "height": 92,
       "nbFrames" : 13,
@@ -11,7 +11,7 @@
     },
     {
       "line":2,
-      "nom": "gauche",
+      "nom": "left",
       "width": 48,
       "height": 92,
       "nbFrames" : 13,
@@ -19,7 +19,7 @@
     },
     {
       "line":6,
-      "nom": "droit",
+      "nom": "right",
       "width": 48,
       "height": 92,
       "nbFrames" : 13,
