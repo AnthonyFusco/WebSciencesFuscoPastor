@@ -20,7 +20,7 @@ function Animation(img) {
             var sprite = new Sprite(spritesheet, 0, yLineForCurrentDir,
                 animation.width, animation.height,
                 animation.nbFrames,
-                3); // draw every 1s
+                animation.nbTicksBetweenRedraws); // draw every 1s
             animations[animation.nom] = sprite;
             i++;
         });
