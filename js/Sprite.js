@@ -81,9 +81,9 @@ function Sprite(spritesheet, x, y, width, height, nbImages, nbFramesOfAnimationB
             owner.nbCurrentTicks = 0;
         }
     };
-    this.render = function(ctx, x, y, scale) {
+    let render = function(ctx, x, y, scale) {
         spriteImages[0].render(ctx, x, y, scale);
     };
 
-    return { width : width, height : height, renderMoving : renderMoving };
+    return { width : width, height : height, renderMoving : renderMoving, render : render };
 }
