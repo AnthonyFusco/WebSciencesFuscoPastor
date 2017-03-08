@@ -1,12 +1,12 @@
-//////////////////////GAME FRAMEWORK/////////////////////////////////////////////////////////////////////////////////////
+//////////////////////GAME FRAMEWORK////////////////////////////////////////////////////////////////////////////////////
 window.addEventListener("load", init);
-var animations = [];
+let animations = [];
 function init() {
     let game = new GameFramework();
 
     animations.push(new AnimationsSet("woman"));
 
-    var promesses = animations.map(function(animation){
+    let promesses = animations.map(function (animation) {
         return animation.getRequest();
     });
 
@@ -26,12 +26,36 @@ const GameFramework = function () {
 
     let inputStates = {};
 
+    let sceneObjects = [];
+    for (let i = 0; i < 10; i++) {
+        sceneObjects.push(new SceneObject(i * 100, i * 100, 100, 100))
+    }
+    sceneObjects.push(new SceneObject(1000, 500, 500, 100));
+    sceneObjects.push(new SceneObject(1000, 450, 10, 10));
+    sceneObjects.push(new SceneObject(1050, 450, 10, 10));
+    sceneObjects.push(new SceneObject(1100, 450, 10, 10));
+    sceneObjects.push(new SceneObject(1150, 450, 10, 10));
+    sceneObjects.push(new SceneObject(1200, 450, 20, 20));
+    sceneObjects.push(new SceneObject(1250, 450, 10, 50));
+    sceneObjects.push(new SceneObject(1300, 450, 50, 10));
+    sceneObjects.push(new SceneObject(1400, 450, 20, 20));
+    sceneObjects.push(new SceneObject(1450, 450, 30, 20));
+    sceneObjects.push(new SceneObject(1600, 0, 30, 2000));
+    sceneObjects.push(new SceneObject(1400, 875, 10, 10));
+    sceneObjects.push(new SceneObject(1350, 875, 10, 10));
+    sceneObjects.push(new SceneObject(1250, 875, 10, 10));
+    sceneObjects.push(new SceneObject(1500, 800, 10, 200));
+
     function animate(delta) {
         ctx.clearRect(0, 0, w, h);
 
+        sceneObjects.forEach(function (obj) {
+            obj.draw(ctx);
+        });
+
         players.forEach(function (player) {
             player.draw(ctx);
-            player.collideEngine(players);
+            player.collideEngine(sceneObjects);
             player.move(inputStates, delta);
         });
     }
@@ -77,7 +101,7 @@ const GameFramework = function () {
         initPlayers(w, h);
 
         //add the listener to the main, window object, and update the states
-        window.addEventListener('keydown', function(event){
+        window.addEventListener('keydown', function (event) {
             if (event.keyCode === 37) {
                 inputStates.left = true;
             } else if (event.keyCode === 38) {
@@ -86,13 +110,13 @@ const GameFramework = function () {
                 inputStates.right = true;
             } else if (event.keyCode === 40) {
                 inputStates.down = true;
-            }  else if (event.keyCode === 32) {
+            } else if (event.keyCode === 32) {
                 inputStates.space = true;
             }
         }, false);
 
         //if the key will be released, change the states object
-        window.addEventListener('keyup', function(event){
+        window.addEventListener('keyup', function (event) {
             if (event.keyCode === 37) {
                 inputStates.left = false;
             } else if (event.keyCode === 38) {
@@ -119,11 +143,11 @@ const GameFramework = function () {
 
 function initPlayers(w, h) {
     for (let i = 0; i < nbPlayers; i++) {
-        players.push(Player(i * 100, i * 100, w, h, animations[0]))
+        players.push(Player(1000, 100, w, h, animations[0]))
     }
 }
 
-let nbPlayers = 10;
+let nbPlayers = 1;
 const players = [];
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
