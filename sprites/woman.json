@@ -7,7 +7,7 @@
       "width": 48,
       "height": 92,
       "nbFrames" : 13,
-      "nbTicksBetweenRedraws" : 10
+      "nbTicksBetweenRedraws" : 1
     },
     {
       "line":2,
@@ -15,7 +15,7 @@
       "width": 48,
       "height": 92,
       "nbFrames" : 13,
-      "nbTicksBetweenRedraws" : 10
+      "nbTicksBetweenRedraws" : 1
     },
     {
       "line":6,
@@ -23,7 +23,7 @@
       "width": 48,
       "height": 92,
       "nbFrames" : 13,
-      "nbTicksBetweenRedraws" : 10
+      "nbTicksBetweenRedraws" : 1
     }
   ]
 }

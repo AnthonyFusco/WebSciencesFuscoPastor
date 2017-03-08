@@ -5,8 +5,10 @@
 function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     let vx = 0;
+    let XSPEED = 750;
+    let YSPEED = 500;
     let vy = 0;
-    let g = 10;
+    let g = 100;
     let angle = 0.0;
     let animName = "forward";
 
@@ -20,6 +22,10 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     let animParams = {
         currentFrame : 0,
         nbCurrentTicks : 0
+    };
+
+    let calcDistanceToMove = function(delta, speed) {
+        return (speed * delta) / 1000;
     };
 
     //bad
@@ -40,27 +46,30 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         }
     };
 
-    let move = function (inputStates, ctx) {
+    let move = function (inputStates, delta) {
         if (inputStates.left) {
-            vx = -10;
+            vx = -XSPEED;
             animName = "left";
         }
         if (inputStates.up) {
-            vy = -50;
+            vy = -YSPEED;
         }
         if (inputStates.right) {
-            vx = 10;
+            vx = XSPEED;
             animName = "right";
         }
         if (inputStates.down) {
-           // vy = 50;
+           // vy = YSPEED;
             animName = "forward";
         }
         if (inputStates.space) {
         }
         vy += g;
-        x += vx;
-        y += vy;
+        /*x += vx;
+        y += vy;*/
+        //todo process the right delta time
+        x += calcDistanceToMove(delta, vx);
+        y += calcDistanceToMove(delta, vy);
     };
 
     let draw = function (ctx) {

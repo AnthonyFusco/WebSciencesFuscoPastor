@@ -22,42 +22,46 @@ const GameFramework = function () {
     let lastTime;
     let fpsContainer;
     let fps;
+    let oldTime = 0;
 
     let inputStates = {};
 
-    function animate(time) {
+    function animate(delta) {
         ctx.clearRect(0, 0, w, h);
-        //anim.renderMoving("avancer", ctx, 100, 100, 1);
 
         players.forEach(function (player) {
             player.draw(ctx);
             player.collideEngine(players);
-            player.move(inputStates);
+            player.move(inputStates, delta);
         });
     }
 
     const measureFPS = function (newTime) {
-        // test for the very first invocation
         if (lastTime === undefined) {
             lastTime = newTime;
             return;
         }
-        // calculate the delta between last & current frame
         const diffTime = newTime - lastTime;
         if (diffTime >= 1000) {
             fps = frameCount;
             frameCount = 0;
             lastTime = newTime;
         }
-        // and display it in an element we appended to the
-        // document in the start() function
         fpsContainer.innerHTML = 'FPS: ' + fps;
         frameCount++;
     };
 
+    function timer(currentTime) {
+        let delta = currentTime - oldTime;
+        oldTime = currentTime;
+        return delta;
+    }
+
     const mainLoop = function (time) {
         measureFPS(time);
-        animate(time);
+        // number of ms since last frame draw
+        let delta = timer(time);
+        animate(delta);
         requestAnimationFrame(mainLoop);
     };
 
@@ -105,8 +109,6 @@ const GameFramework = function () {
         fpsContainer = document.createElement('div');
         document.body.appendChild(fpsContainer);
 
-
-        //anim = new AnimationsSet("woman");
         requestAnimationFrame(mainLoop);
     };
 
@@ -117,7 +119,6 @@ const GameFramework = function () {
 
 function initPlayers(w, h) {
     for (let i = 0; i < nbPlayers; i++) {
-        //players.push(Player(i * 100, i * 100, `rgb(${1},${1},${i * 30})`, w, h, animations[0]))
         players.push(Player(i * 100, i * 100, w, h, animations[0]))
     }
 }
