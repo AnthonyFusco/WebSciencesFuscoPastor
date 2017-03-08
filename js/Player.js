@@ -65,9 +65,6 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         if (inputStates.space) {
         }
         vy += g;
-        /*x += vx;
-        y += vy;*/
-        //todo process the right delta time
         x += calcDistanceToMove(delta, vx);
         y += calcDistanceToMove(delta, vy);
     };
