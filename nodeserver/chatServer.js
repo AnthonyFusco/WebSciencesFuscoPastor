@@ -10,10 +10,6 @@ console.log("server on http://127.0.0.1:" + PORT);
 
 app.use(express.static('./'));
 
-app.get('/', function (req, res) {
-    res.sendfile('./index.html');
-});
-
 var usernames = {};
 io.sockets.on('connection', function (socket) {
 

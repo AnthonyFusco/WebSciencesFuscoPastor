@@ -4,43 +4,38 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>WebSciencesUnice</title>
+    <script src="js/jquery-3.1.1.min.js"></script>
+
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
   <script src="js/SceneObject.js"></script>
   <script src="js/Player.js"></script>
   <script src="js/Sprite.js"></script>
   <script src="js/Main.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
+  <script src="http://127.0.0.1:8082/socket.io/socket.io.js"></script>
 
   <script>
       var username = prompt("What's your name?");
-      var conversation, data, datasend, users;
-      var socket = io.connect();
+      var data, users;
+      var socket = io.connect('http://127.0.0.1:8082');
       socket.on('connect', function(){
           socket.emit('adduser', username);
       });
 
       socket.on('updatechat', function (username, data) {
-          var chatMessage = "<b>" + username + ":</b> " + data + "<br>";
-          conversation.innerHTML += chatMessage;
+          var ul = document.querySelector(".chat");
+          var li = document.createElement("li");
+          li.appendChild(document.createTextNode(data));
+          ul.appendChild(li);
       });
 
       socket.on('updateusers', function(listOfUsers) {
-          users.innerHTML = "";
-          for(var name in listOfUsers) {
-              var userLineOfHTML = '<div>' + name + '</div>';
-              users.innerHTML += userLineOfHTML;
-          }
+          //mettre a jour la liste des users
       });
 
       window.addEventListener("load", function(){
-          conversation = document.querySelector("#conversation");
-          data = document.querySelector("#data");
-          datasend = document.querySelector("#datasend");
-          users = document.querySelector("#users");
-
-          datasend.addEventListener("click", function(evt) {
-              sendMessage();
-          });
+          data = document.querySelector("#input-message");
 
           data.addEventListener("keypress", function(evt) {
               if(evt.keyCode == 13) {
@@ -51,23 +46,32 @@
 
           function sendMessage() {
               var message = data.value;
+              debugger;
               data.value = "";
               socket.emit('sendchat', message);
           }
       });
 
   </script>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
 </head>
 <body>
-  <canvas id="myCanvas" width=1900 height=900></canvas>
-  <div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;scroll-y:overflow;">
-    <b>USERS</b>
-    <div id="users"></div>
-  </div>
-  <div style="float:left;width:300px;height:250px;scroll-y:overflow;padding:10px;">
-    <div id="conversation"></div>
-    <input id="data" style="width:200px;" />
-    <input type="button" id="datasend" value="send" />
-  </div>
+
+    <div class="panel panel-primary" style="max-width: 500px">
+        <div class="panel-heading">Chat</div>
+        <div class="panel-body" style="max-height: 200px; overflow-y: scroll; min-height: 200px">
+            <ul class="chat">
+            </ul>
+        </div>
+        <div class="panel-footer">
+            <div class="input-group">
+                <input type="text" id="input-message" class="form-control" placeholder="Ecrire un message">
+                <span class="input-group-btn">
+                    <button class="btn btn-success" type="button" id="button-send" onclick="sendMessage();">Envoyer</button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <canvas id="myCanvas" width=1900 height=900></canvas>
 </body>
 </html>
