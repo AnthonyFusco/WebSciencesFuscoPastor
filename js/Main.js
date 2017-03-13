@@ -1,5 +1,11 @@
 //////////////////////GAME FRAMEWORK////////////////////////////////////////////////////////////////////////////////////
 window.addEventListener("load", init);
+window.addEventListener("keydown", function(e) {
+    // space and arrow keys
+    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+        e.preventDefault();
+    }
+}, false);
 let animations = [];
 function init() {
     let game = new GameFramework();
@@ -30,6 +36,9 @@ const GameFramework = function () {
     for (let i = 0; i < 10; i++) {
         sceneObjects.push(new SceneObject(i * 100, i * 100, 100, 100))
     }
+    sceneObjects.push(new SceneObject(0, 500, 500, 100));
+    sceneObjects.push(new SceneObject(50, 500, 500, 100));
+    sceneObjects.push(new SceneObject(100, 500, 500, 100));
     sceneObjects.push(new SceneObject(1000, 500, 500, 100));
     sceneObjects.push(new SceneObject(1000, 450, 10, 10));
     sceneObjects.push(new SceneObject(1050, 450, 10, 10));
@@ -45,6 +54,7 @@ const GameFramework = function () {
     sceneObjects.push(new SceneObject(1350, 875, 10, 10));
     sceneObjects.push(new SceneObject(1250, 875, 10, 10));
     sceneObjects.push(new SceneObject(1500, 800, 10, 200));
+    sceneObjects.sort(function(a, b){return a.x - b.x});
 
     function animate(delta) {
         ctx.clearRect(0, 0, w, h);
