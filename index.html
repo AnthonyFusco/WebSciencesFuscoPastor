@@ -14,45 +14,6 @@
   <script src="js/Sprite.js"></script>
   <script src="js/Main.js"></script>
   <script src="http://127.0.0.1:8082/socket.io/socket.io.js"></script>
-
-  <script>
-      var username = prompt("What's your name?");
-      var data, users;
-      var socket = io.connect('http://127.0.0.1:8082');
-      socket.on('connect', function(){
-          socket.emit('adduser', username);
-      });
-
-      socket.on('updatechat', function (username, data) {
-          var ul = document.querySelector(".chat");
-          var li = document.createElement("li");
-          li.appendChild(document.createTextNode(data));
-          ul.appendChild(li);
-      });
-
-      socket.on('updateusers', function(listOfUsers) {
-          //mettre a jour la liste des users
-      });
-
-      window.addEventListener("load", function(){
-          data = document.querySelector("#input-message");
-
-          data.addEventListener("keypress", function(evt) {
-              if(evt.keyCode == 13) {
-                  this.blur();
-                  sendMessage();
-              }
-          });
-
-          function sendMessage() {
-              var message = data.value;
-              debugger;
-              data.value = "";
-              socket.emit('sendchat', message);
-          }
-      });
-
-  </script>
     <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
 </head>
 <body>
@@ -67,7 +28,7 @@
             <div class="input-group">
                 <input type="text" id="input-message" class="form-control" placeholder="Ecrire un message">
                 <span class="input-group-btn">
-                    <button class="btn btn-success" type="button" id="button-send" onclick="sendMessage();">Envoyer</button>
+                    <button class="btn btn-success" type="button" id="button-send" onclick="socket.sendMessage();">Envoyer</button>
                 </span>
             </div>
         </div>

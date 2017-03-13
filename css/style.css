@@ -3,3 +3,24 @@
   background-color:lightGrey;
   width: 100%;
 }
+
+.chat
+{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chat li {
+  border-bottom: 1px dotted #B3A9A9;
+}
+
+.from {
+    font-weight: bold;
+    float: left;
+    padding-right: 10px;
+}
+
+.message {
+
+}

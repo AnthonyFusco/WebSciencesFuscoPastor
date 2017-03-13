@@ -7,8 +7,49 @@ window.addEventListener("keydown", function(e) {
     }
 }, false);
 let animations = [];
+let socket;
+let game;
+let username;
+function initSocket(username){
+    var socket = io.connect('http://127.0.0.1:8082');
+
+    socket.on('connect', function(){
+        socket.emit('adduser', username);
+    });
+
+    socket.on('startgame', function(listPlayers){
+        game.initPlayers(listPlayers);
+        game.start();
+    });
+
+    socket.on('updatechat', function (username, data) {
+        var ul = document.querySelector(".chat");
+        var li = document.createElement("li");
+        li.innerHTML =
+            `<div class="from">${username} :</div><div class="message">${data}</div>`;
+        ul.appendChild(li);
+    });
+
+    var data = document.querySelector("#input-message");
+    data.addEventListener("keypress", function(evt) {
+        if(evt.keyCode == 13) {
+            this.blur();
+            sendMessage();
+        }
+    });
+
+    function sendMessage() {
+        var message = data.value;
+        data.value = "";
+        socket.emit('sendchat', message);
+    }
+
+    socket.sendMessage = sendMessage;
+
+    return socket;
+}
+
 function init() {
-    let game = new GameFramework();
 
     animations.push(new AnimationsSet("woman"));
 
@@ -17,20 +58,25 @@ function init() {
     });
 
     Promise.all(promesses).then(() => {
-        game.start();
+        username = prompt("What's your name?");
+        socket = initSocket(username);
+        game = new GameFramework();
     })
 }
 
 const GameFramework = function () {
 
-    let canvas, ctx, w, h;
+    let canvas = document.querySelector("#myCanvas");
+    let ctx = canvas.getContext("2d");
+    let w = canvas.width;
+    let h = canvas.height;
     let frameCount = 0;
     let lastTime;
     let fpsContainer;
     let fps;
     let oldTime = 0;
-
     let inputStates = {};
+    let players = {};
 
     let sceneObjects = [];
     for (let i = 0; i < 10; i++) {
@@ -56,6 +102,8 @@ const GameFramework = function () {
     sceneObjects.push(new SceneObject(1500, 800, 10, 200));
     sceneObjects.sort(function(a, b){return a.x - b.x});
 
+
+
     function animate(delta) {
         ctx.clearRect(0, 0, w, h);
 
@@ -63,11 +111,16 @@ const GameFramework = function () {
             obj.draw(ctx);
         });
 
-        players.forEach(function (player) {
-            player.draw(ctx);
-            player.collideEngine(sceneObjects);
-            player.move(inputStates, delta);
-        });
+        for (var player in players){
+            players[player].draw(ctx);
+        }
+        players[username].collideEngine(sceneObjects);
+        players[username].move(inputStates, delta);
+
+    }
+
+    function initPlayers(playernames){
+        playernames.forEach(name => players[name] = new Player(1000, 100, w, h, animations[0]));
     }
 
     const measureFPS = function (newTime) {
@@ -101,14 +154,6 @@ const GameFramework = function () {
 
     const start = function () {
         console.log("loaded");
-
-        canvas = document.querySelector("#myCanvas");
-        ctx = canvas.getContext("2d");
-        w = canvas.width;
-        h = canvas.height;
-
-        //create all the players
-        initPlayers(w, h);
 
         //add the listener to the main, window object, and update the states
         window.addEventListener('keydown', function (event) {
@@ -147,17 +192,8 @@ const GameFramework = function () {
     };
 
     return {
-        start: start
+        start: start,
+        initPlayers: initPlayers
     };
 };
-
-function initPlayers(w, h) {
-    for (let i = 0; i < nbPlayers; i++) {
-        players.push(Player(1000, 100, w, h, animations[0]))
-    }
-}
-
-let nbPlayers = 1;
-const players = [];
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
