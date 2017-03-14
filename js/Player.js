@@ -5,8 +5,8 @@
 function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     let vx = 0;
-    let XSPEED = 500;
-    let YSPEED = 1000;
+    let XSPEED = 200;
+    let YSPEED = 300;
     let vy = 0;
     let g = 100;
     let angle = 0.0;
