@@ -160,7 +160,6 @@ const GameFramework = function () {
     const start = function () {
         console.log("loaded");
         socket.on('keyboardevent', function(username, event, boolean){
-            debugger;
             if (event === 37) {
                 players[username].inputStates.left = boolean;
             } else if (event === 38) {
