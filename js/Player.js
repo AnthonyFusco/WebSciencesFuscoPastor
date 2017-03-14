@@ -245,7 +245,16 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         onPlayerOverlap(objects);
     };
 
+    let getCoords = function () {
+        return { x : x, y: y};
+    };
+
+    let setCoords = function(nx, ny){
+        x = nx;
+        y = ny;
+    }
+
     return {
-        move: move, draw: draw, collideEngine: collideEngine, inputStates:inputStates
+        move: move, draw: draw, collideEngine: collideEngine, inputStates:inputStates, getCoords:getCoords, setCoords:setCoords
     };
 }

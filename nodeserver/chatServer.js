@@ -9,7 +9,7 @@ server.listen(PORT);
 console.log("server on http://127.0.0.1:" + PORT);
 
 app.use(express.static('./'));
-var nbPlayersMax = 1;
+var nbPlayersMax = 2;
 var players = {};
 io.sockets.on('connection', function (socket) {
     socket.on('adduser', function(username){
@@ -31,4 +31,12 @@ io.sockets.on('connection', function (socket) {
     socket.on('disconnect', function(){
         delete players[socket.username];
     });
+
+    socket.on("givemecoords", function (username, coords) {
+        io.sockets.emit("setcoords", username, coords);
+    })
+
+    setInterval(function(){
+        io.sockets.emit("givemecoords");
+    }, 500);
 });
