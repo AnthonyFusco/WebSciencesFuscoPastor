@@ -38,5 +38,5 @@ io.sockets.on('connection', function (socket) {
 
     setInterval(function(){
         io.sockets.emit("givemecoords");
-    }, 500);
+    }, 1000);
 });
