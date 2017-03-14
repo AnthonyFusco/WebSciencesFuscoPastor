@@ -176,11 +176,11 @@ const GameFramework = function () {
         });
 
         socket.on("givemecoords", function(){
-            for (let user in listp){
+            listp.forEach(user => {
                 if (user !== username) {
                     socket.emit("givemecoords", user, players[user].getCoords());
                 }
-            }
+            });
         });
 
         socket.on("setcoords", function(username, coords){
