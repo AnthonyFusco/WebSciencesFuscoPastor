@@ -246,14 +246,14 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     };
 
     let getCoords = function () {
-        return { x : x, y: y, vx:vx,vy:vy};
+        return { x : x, y: y/*, vx:vx,vy:vy*/};
     };
 
-    let setCoords = function(nx, ny, nvx, nvy){
+    let setCoords = function(nx, ny/*, nvx, nvy*/){
         x = nx;
         y = ny;
-        vx = nvx;
-        vy = nvy;
+        /*vx = nvx;
+        vy = nvy;*/
     };
 
     return {

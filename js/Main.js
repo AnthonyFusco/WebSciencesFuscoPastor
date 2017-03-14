@@ -181,7 +181,7 @@ const GameFramework = function () {
 
         socket.on("setcoords", function(usernameServer, coords){
             if (usernameServer !== username){
-                players[usernameServer].setCoords(coords.x, coords.y, coords.vx, coords.vy);
+                players[usernameServer].setCoords(coords.x, coords.y/*, coords.vx, coords.vy*/);
             }
         });
         //add the listener to the main, window object, and update the states
