@@ -12,6 +12,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     let angle = 0.0;
     let animName = "forward";
     let grounded = false;
+    let inputStates = { right: false, left:false, up:false, down:false, space:false };
 
     let getSpriteWidth = function () {
         return anim.animations[animName].width;
@@ -144,7 +145,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         }
     };
 
-    let move = function (inputStates, delta) {
+    let move = function (delta) {
         if (inputStates.left) {
             vx = -XSPEED;
             animName = "left";
@@ -168,6 +169,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         vy += g;
         x += calcDistanceToMove(delta, vx);
         y += calcDistanceToMove(delta, vy);
+        debugger;
     };
 
     let draw = function (ctx) {
@@ -190,6 +192,6 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     };
 
     return {
-        move: move, draw: draw, collideEngine: collideEngine
+        move: move, draw: draw, collideEngine: collideEngine, inputStates:inputStates
     };
 }

@@ -10,6 +10,7 @@ let animations = [];
 let socket;
 let game;
 let username;
+
 function initSocket(username){
     var socket = io.connect('http://127.0.0.1:8082');
 
@@ -75,7 +76,6 @@ const GameFramework = function () {
     let fpsContainer;
     let fps;
     let oldTime = 0;
-    let inputStates = {};
     let players = {};
 
     let sceneObjects = [];
@@ -113,9 +113,10 @@ const GameFramework = function () {
 
         for (var player in players){
             players[player].draw(ctx);
+            players[player].collideEngine(sceneObjects);
+            players[player].move(delta);
         }
-        players[username].collideEngine(sceneObjects);
-        players[username].move(inputStates, delta);
+
 
     }
 
@@ -152,36 +153,53 @@ const GameFramework = function () {
         requestAnimationFrame(mainLoop);
     };
 
+    const sendKeyboardEvent = function(username, event, boolean){
+        socket.emit('keyboardevent', username, event, boolean);
+    };
+
     const start = function () {
         console.log("loaded");
-
+        socket.on('keyboardevent', function(username, event, boolean){
+            debugger;
+            if (event === 37) {
+                players[username].inputStates.left = boolean;
+            } else if (event === 38) {
+                players[username].inputStates.up = boolean;
+            } else if (event === 39) {
+                players[username].inputStates.right = boolean;
+            } else if (event === 40) {
+                players[username].inputStates.down = boolean;
+            } else if (event === 32) {
+                players[username].inputStates.space = boolean;
+            }
+        });
         //add the listener to the main, window object, and update the states
         window.addEventListener('keydown', function (event) {
-            if (event.keyCode === 37) {
-                inputStates.left = true;
-            } else if (event.keyCode === 38) {
-                inputStates.up = true;
-            } else if (event.keyCode === 39) {
-                inputStates.right = true;
-            } else if (event.keyCode === 40) {
-                inputStates.down = true;
-            } else if (event.keyCode === 32) {
-                inputStates.space = true;
+            if (event.keyCode === 37 && !players[username].inputStates.left) {
+                sendKeyboardEvent(username, event.keyCode, true);
+            } else if (event.keyCode === 38 && !players[username].inputStates.up) {
+                sendKeyboardEvent(username, event.keyCode, true);
+            } else if (event.keyCode === 39 && !players[username].inputStates.right) {
+                sendKeyboardEvent(username, event.keyCode, true);
+            } else if (event.keyCode === 40 && !players[username].inputStates.down) {
+                sendKeyboardEvent(username, event.keyCode, true);
+            } else if (event.keyCode === 32 && !players[username].inputStates.space) {
+                sendKeyboardEvent(username, event.keyCode, true);
             }
         }, false);
 
         //if the key will be released, change the states object
         window.addEventListener('keyup', function (event) {
-            if (event.keyCode === 37) {
-                inputStates.left = false;
-            } else if (event.keyCode === 38) {
-                inputStates.up = false;
-            } else if (event.keyCode === 39) {
-                inputStates.right = false;
-            } else if (event.keyCode === 40) {
-                inputStates.down = false;
-            } else if (event.keyCode === 32) {
-                inputStates.space = false;
+            if (event.keyCode === 37 && players[username].inputStates.left) {
+                sendKeyboardEvent(username, event.keyCode, false);
+            } else if (event.keyCode === 38 && players[username].inputStates.up) {
+                sendKeyboardEvent(username, event.keyCode, false);
+            } else if (event.keyCode === 39 && players[username].inputStates.right) {
+                sendKeyboardEvent(username, event.keyCode, false);
+            } else if (event.keyCode === 40 && players[username].inputStates.down) {
+                sendKeyboardEvent(username, event.keyCode, false);
+            } else if (event.keyCode === 32 && players[username].inputStates.space) {
+                sendKeyboardEvent(username, event.keyCode, false);
             }
         }, false);
 

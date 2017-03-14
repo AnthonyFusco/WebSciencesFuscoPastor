@@ -20,6 +20,10 @@ io.sockets.on('connection', function (socket) {
         }
     });
 
+    socket.on("keyboardevent", function(username, event, boolean){
+        io.sockets.emit("keyboardevent", username, event, boolean);
+    });
+
     socket.on('sendchat', function (data) {
         io.sockets.emit('updatechat', socket.username, data);
     });
