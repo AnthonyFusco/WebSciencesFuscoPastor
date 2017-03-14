@@ -10,7 +10,7 @@ let animations = [];
 let socket;
 let game;
 let username;
-
+let listp;
 function initSocket(username){
     var socket = io.connect('http://192.168.43.3:8082');
     // var socket = io.connect('http://127.0.0.1:8082');
@@ -20,6 +20,7 @@ function initSocket(username){
     });
 
     socket.on('startgame', function(listPlayers){
+        listp = listPlayers;
         game.initPlayers(listPlayers);
         game.start();
     });
@@ -175,7 +176,11 @@ const GameFramework = function () {
         });
 
         socket.on("givemecoords", function(){
-            socket.emit("givemecoords", username, players[username].getCoords());
+            for (let user in listp){
+                if (user !== username) {
+                    socket.emit("givemecoords", user, players[user].getCoords());
+                }
+            }
         });
 
         socket.on("setcoords", function(username, coords){
