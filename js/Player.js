@@ -199,7 +199,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         y += deltaY;
     };
 
-    let move = function (inputStates, delta, objects) {
+    let move = function (delta, objects) {
         if (inputStates.left) {
             vx = -XSPEED;
             animName = "left";
@@ -221,9 +221,9 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
          vx = 0;
          }*/
         vy += g;
-        x += calcDistanceToMove(delta, vx);
-        y += calcDistanceToMove(delta, vy);
-        //checkCorrectMovement(calcDistanceToMove(delta, vx), calcDistanceToMove(delta, vy), objects)
+       /* x += calcDistanceToMove(delta, vx);
+        y += calcDistanceToMove(delta, vy);*/
+        checkCorrectMovement(calcDistanceToMove(delta, vx), calcDistanceToMove(delta, vy), objects)
     };
 
     let draw = function (ctx) {

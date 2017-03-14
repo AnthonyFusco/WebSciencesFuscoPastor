@@ -12,7 +12,8 @@ let game;
 let username;
 
 function initSocket(username){
-    var socket = io.connect('http://192.168.43.3:8082');
+    //var socket = io.connect('http://192.168.43.3:8082');
+    var socket = io.connect('http://127.0.0.1:8082');
 
     socket.on('connect', function(){
         socket.emit('adduser', username);
@@ -114,7 +115,7 @@ const GameFramework = function () {
         for (var player in players){
             players[player].draw(ctx);
             players[player].collideEngine(sceneObjects);
-            players[player].move(delta);
+            players[player].move(delta, sceneObjects);
         }
 
 

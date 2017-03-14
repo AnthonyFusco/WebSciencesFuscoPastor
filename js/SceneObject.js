@@ -51,7 +51,10 @@ function SceneObject(x, y, width, height) {
     let bottomFace = faceBuilder(x        , y + height, width, 1     , function ()             { return y + height + 1; }      , isValidY);
 
     let draw = function (ctx) {
-        ctx.fillRect(x, y, width, height);
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.fillRect(0, 0, width, height);
+        ctx.restore();
     };
 
     let faces = [];
