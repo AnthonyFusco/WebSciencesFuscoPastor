@@ -10,7 +10,6 @@ let animations = [];
 let socket;
 let game;
 let username;
-let listp;
 function initSocket(username){
     var socket = io.connect('http://192.168.43.3:8082');
     // var socket = io.connect('http://127.0.0.1:8082');
@@ -20,7 +19,6 @@ function initSocket(username){
     });
 
     socket.on('startgame', function(listPlayers){
-        listp = listPlayers;
         game.initPlayers(listPlayers);
         game.start();
     });
@@ -161,59 +159,64 @@ const GameFramework = function () {
 
     const start = function () {
         console.log("loaded");
-        socket.on('keyboardevent', function(username, event, boolean){
-            if (event === 37) {
-                players[username].inputStates.left = boolean;
-            } else if (event === 38) {
-                players[username].inputStates.up = boolean;
-            } else if (event === 39) {
-                players[username].inputStates.right = boolean;
-            } else if (event === 40) {
-                players[username].inputStates.down = boolean;
-            } else if (event === 32) {
-                players[username].inputStates.space = boolean;
+        socket.on('keyboardevent', function(usernameServer, event, boolean){
+            if (usernameServer !== username) {
+                if (event === 37) {
+                    players[usernameServer].inputStates.left = boolean;
+                } else if (event === 38) {
+                    players[usernameServer].inputStates.up = boolean;
+                } else if (event === 39) {
+                    players[usernameServer].inputStates.right = boolean;
+                } else if (event === 40) {
+                    players[usernameServer].inputStates.down = boolean;
+                } else if (event === 32) {
+                    players[usernameServer].inputStates.space = boolean;
+                }
             }
         });
 
         socket.on("givemecoords", function(){
-            listp.forEach(user => {
-                if (user !== username) {
-                    socket.emit("givemecoords", user, players[user].getCoords());
-                }
-            });
+            socket.emit("givemecoords", username, players[username].getCoords());
         });
 
-        socket.on("setcoords", function(username, coords){
-            players[username].setCoords(coords.x, coords.y, coords.vx, coords.vy);
+        socket.on("setcoords", function(usernameServer, coords){
+            if (usernameServer !== username){
+                players[usernameServer].setCoords(coords.x, coords.y, coords.vx, coords.vy);
+            }
         });
         //add the listener to the main, window object, and update the states
         window.addEventListener('keydown', function (event) {
             if (event.keyCode === 37 && !players[username].inputStates.left) {
+                players[username].inputStates.left = true;
                 sendKeyboardEvent(username, event.keyCode, true);
             } else if (event.keyCode === 38 && !players[username].inputStates.up) {
+                players[username].inputStates.up = true;
                 sendKeyboardEvent(username, event.keyCode, true);
             } else if (event.keyCode === 39 && !players[username].inputStates.right) {
+                players[username].inputStates.right = true;
                 sendKeyboardEvent(username, event.keyCode, true);
             } else if (event.keyCode === 40 && !players[username].inputStates.down) {
+                players[username].inputStates.right = true;
                 sendKeyboardEvent(username, event.keyCode, true);
             } else if (event.keyCode === 32 && !players[username].inputStates.space) {
+                players[username].inputStates.space = true;
                 sendKeyboardEvent(username, event.keyCode, true);
             }
         }, false);
 
         //if the key will be released, change the states object
         window.addEventListener('keyup', function (event) {
-            /*if (event.keyCode === 37 && players[username].inputStates.left) {
-                sendKeyboardEvent(username, event.keyCode, false);
+            if (event.keyCode === 37 && players[username].inputStates.left) {
+                players[username].inputStates.left = false;
             } else if (event.keyCode === 38 && players[username].inputStates.up) {
-                sendKeyboardEvent(username, event.keyCode, false);
+                players[username].inputStates.up = false;
             } else if (event.keyCode === 39 && players[username].inputStates.right) {
-                sendKeyboardEvent(username, event.keyCode, false);
+                players[username].inputStates.right = false;
             } else if (event.keyCode === 40 && players[username].inputStates.down) {
-                sendKeyboardEvent(username, event.keyCode, false);
+                players[username].inputStates.down = false;
             } else if (event.keyCode === 32 && players[username].inputStates.space) {
-                sendKeyboardEvent(username, event.keyCode, false);
-            }*/
+                players[username].inputStates.space = false;
+            }
             sendKeyboardEvent(username, event.keyCode, false);
         }, false);
 
