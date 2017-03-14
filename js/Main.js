@@ -179,8 +179,8 @@ const GameFramework = function () {
         });
 
         socket.on("setcoords", function(username, coords){
-            players[username].setCoords(coords.x, coords.y);
-        })
+            players[username].setCoords(coords.x, coords.y, coords.vx, coords.vy);
+        });
         //add the listener to the main, window object, and update the states
         window.addEventListener('keydown', function (event) {
             if (event.keyCode === 37 && !players[username].inputStates.left) {

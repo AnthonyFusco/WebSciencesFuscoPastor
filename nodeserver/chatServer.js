@@ -34,7 +34,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on("givemecoords", function (username, coords) {
         io.sockets.emit("setcoords", username, coords);
-    })
+    });
 
     setInterval(function(){
         io.sockets.emit("givemecoords");
