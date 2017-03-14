@@ -9,7 +9,7 @@ server.listen(PORT);
 console.log("server on http://127.0.0.1:" + PORT);
 
 app.use(express.static('./'));
-var nbPlayersMax = 2;
+var nbPlayersMax = 1;
 var players = {};
 io.sockets.on('connection', function (socket) {
     socket.on('adduser', function(username){

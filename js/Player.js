@@ -59,7 +59,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         return rectsOverlap(x, y, getSpriteWidth(), getSpriteHeight(), object.x, object.y, object.width, object.height);
     }
 
-    Array.prototype.binarySearch = function(find, comparator) {
+    Array.prototype.binarySearch = function (find, comparator) {
         let option_high;
         let option_low;
         let low = 0, high = this.length - 1, i, comparison, prev_comparison;
@@ -67,11 +67,18 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
             i = Math.floor((low + high) / 2);
             comparison = comparator(this[i], find);
             prev_comparison = comparison;
-            if (comparison < 0) { low = i + 1; continue; }
-            if (comparison > 0) { high = i - 1; continue; }
-            option_high = i;
-            option_low = i;
-            return {option_low, option_high};
+            if (comparison < 0) {
+                low = i + 1;
+                continue;
+            }
+            if (comparison > 0) {
+                high = i - 1;
+                continue;
+            }
+            break;
+            /*option_high = i;
+             option_low = i;
+             return {option_low, option_high};*/
         }
         if (prev_comparison < 0) {
             option_low = i;
@@ -83,12 +90,13 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         return {option_low, option_high};
     };
 
-    function compareLow(a, b){
+    function compareLow(a, b) {
         if (a.x < b) {
-            if(a.x + a.width < b) {
+            if (a.x + a.width < b) {
                 return -1;
-            } else if(a.x + a.width > b) {
-                return 1;
+            }
+            else if (a.x + a.width > b) {
+                return 0;
             } else {
                 return 0;
             }
@@ -99,16 +107,19 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         }
     }
 
-    function compareHigh(a, b){
+    function compareHigh(a, b) {
         return a.x - b;
-     }
+    }
 
     function onPlayerOverlap(objects) {
         let low = objects.binarySearch(x, compareLow).option_low;
-        if(low == -1) {low = 0;}
+        if (low == -1) {
+            low = 0;
+        }
         let high = objects.binarySearch(x + getSpriteWidth(), compareHigh).option_high;
+
         //console.log("low : " + low + ", high : " + high + ", x : " + x);
-        for(let i = low; i < high; i++){
+        for (let i = low; i < high; i++) {
             let obj = objects[i];
             if (playerOverlap(obj)) {
                 onOverlap(obj);
@@ -116,36 +127,79 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         }
     }
 
-    let onOverlap = function(obj) {
-        let topFace    = obj.faces["topFace"];
+    let onOverlap = function (obj) {
+        let topFace = obj.faces["topFace"];
         let bottomFace = obj.faces["bottomFace"];
-        let leftFace   = obj.faces["leftFace"];
-        let rightFace  = obj.faces["rightFace"];
-        if(playerOverlap(topFace) && topFace.isValid(x, getSpriteWidth())) {
+        let leftFace = obj.faces["leftFace"];
+        let rightFace = obj.faces["rightFace"];
+        if (playerOverlap(topFace) && topFace.isValid(x, getSpriteWidth())) {
             y = topFace.onCollide(getSpriteHeight());
             grounded = true;
             vx = 0;
             vy = 0;
         }
-        if(playerOverlap(bottomFace) && bottomFace.isValid(x, getSpriteWidth())) {
+        if (playerOverlap(bottomFace) && bottomFace.isValid(x, getSpriteWidth())) {
             y = bottomFace.onCollide();
             grounded = true;
             vx = 0;
             vy = 0;
         }
-        if(playerOverlap(leftFace) && leftFace.isValid(y, getSpriteHeight())) {
+        if (playerOverlap(leftFace) && leftFace.isValid(y, getSpriteHeight())) {
             x = leftFace.onCollide(getSpriteWidth());
             grounded = true;
             vx = 0;
         }
-        if(playerOverlap(rightFace) && rightFace.isValid(y, getSpriteHeight())) {
+        if (playerOverlap(rightFace) && rightFace.isValid(y, getSpriteHeight())) {
             x = rightFace.onCollide();
             grounded = true;
             vx = 0;
         }
     };
 
-    let move = function (delta) {
+    let checkCorrectMovement = function (deltaX, deltaY, objects) {
+        let low = objects.binarySearch(x, compareLow).option_low;
+        if (low == -1) {
+            low = 0;
+        }
+        let high = objects.binarySearch(x + getSpriteWidth() + deltaX, compareHigh).option_high;
+
+        for (let i = low; i < high; i++) {
+            let obj = objects[i];
+            let oldX = x;
+            let oldY = y;
+            let max;
+            if (deltaX > deltaY) {
+                max = Math.abs(deltaX);
+            } else {
+                max = Math.abs(deltaY);
+            }
+            while (max > 0) {
+                max--;
+                if (oldX != x + deltaX) {
+                    oldX = oldX + Math.sign(deltaX);
+                }
+                if (oldY != y + deltaY) {
+                    oldY = oldY + Math.sign(deltaY);
+                }
+                if (rectsOverlap(oldX, oldY, getSpriteWidth(), getSpriteHeight(), obj.x, obj.y, obj.width, obj.height)) {
+                    x += deltaX;
+                    y += deltaY;
+                    onOverlap(obj);
+                    return;
+                }
+                // if (x != oldX + deltaX) {x = x + Math.sign(deltaX);}
+                // if (y != oldY + deltaY) {y = y + Math.sign(deltaY);}
+                /*if (playerOverlap(obj)) {
+                 onOverlap(obj);
+                 return;
+                 }*/
+            }
+        }
+        x += deltaX;
+        y += deltaY;
+    };
+
+    let move = function (inputStates, delta, objects) {
         if (inputStates.left) {
             vx = -XSPEED;
             animName = "left";
@@ -164,12 +218,12 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         if (inputStates.space) {
         }
         /*if(!inputStates.left && !inputStates.right) {
-            vx = 0;
-        }*/
+         vx = 0;
+         }*/
         vy += g;
         x += calcDistanceToMove(delta, vx);
         y += calcDistanceToMove(delta, vy);
-        debugger;
+        //checkCorrectMovement(calcDistanceToMove(delta, vx), calcDistanceToMove(delta, vy), objects)
     };
 
     let draw = function (ctx) {
