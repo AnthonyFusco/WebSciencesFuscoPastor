@@ -12,7 +12,7 @@ let game;
 let username;
 
 function initSocket(username){
-    var socket = io.connect('http://127.0.0.1:8082');
+    var socket = io.connect('http://192.168.43.3:8082');
 
     socket.on('connect', function(){
         socket.emit('adduser', username);
@@ -190,7 +190,7 @@ const GameFramework = function () {
 
         //if the key will be released, change the states object
         window.addEventListener('keyup', function (event) {
-            if (event.keyCode === 37 && players[username].inputStates.left) {
+            /*if (event.keyCode === 37 && players[username].inputStates.left) {
                 sendKeyboardEvent(username, event.keyCode, false);
             } else if (event.keyCode === 38 && players[username].inputStates.up) {
                 sendKeyboardEvent(username, event.keyCode, false);
@@ -200,7 +200,8 @@ const GameFramework = function () {
                 sendKeyboardEvent(username, event.keyCode, false);
             } else if (event.keyCode === 32 && players[username].inputStates.space) {
                 sendKeyboardEvent(username, event.keyCode, false);
-            }
+            }*/
+            sendKeyboardEvent(username, event.keyCode, false);
         }, false);
 
         fpsContainer = document.createElement('div');
