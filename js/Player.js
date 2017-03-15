@@ -13,8 +13,9 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     let angle = 0.0;
     let animName = "forward";
     let grounded = false;
-    let inputStates = { right: false, left:false, up:false, down:false, space:false };
+    let inputStates = { right: false, left:false, up:false, down:false, space:false, mousedown:false };
     let isMovementBlocked = true;
+    let bullets = [];
 
     let getSpriteWidth = function () {
         return anim.animations[animName].width;
@@ -50,7 +51,6 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
             vx = 0;
             vy = 0;
             grounded = true;
-            //isMovementBlocked = true;
         }
     };
 
@@ -220,7 +220,12 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         vy = nvy;*/
     };
 
+    let onShoot = function(mousePosX, mousePosY) {
+        bullets.push(new Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight));
+    };
+
     return {
-        move: move, draw: draw, collideEngine: collideEngine, inputStates:inputStates, getCoords:getCoords, setCoords:setCoords, getSpriteWidth:getSpriteWidth, getSpriteHeight:getSpriteHeight
+        move: move, draw: draw, collideEngine: collideEngine, inputStates:inputStates, getCoords:getCoords, setCoords:setCoords, getSpriteWidth:getSpriteWidth, getSpriteHeight:getSpriteHeight, onShoot:onShoot,
+        bullets:bullets
     };
 }

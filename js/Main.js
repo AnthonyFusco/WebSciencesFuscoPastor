@@ -1,8 +1,8 @@
 //////////////////////GAME FRAMEWORK////////////////////////////////////////////////////////////////////////////////////
 window.addEventListener("load", init);
-window.addEventListener("keydown", function(e) {
+window.addEventListener("keydown", function (e) {
     // space and arrow keys
-    if([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+    if ([32, 37, 38, 39, 40].indexOf(e.keyCode) > -1) {
         e.preventDefault();
     }
 }, false);
@@ -10,38 +10,38 @@ let animations = [];
 let socket;
 let game;
 let username;
-function initSocket(username){
-    var socket = io.connect('http://192.168.43.158:8082');
+function initSocket(username) {
+    let socket = io.connect('http://192.168.43.158:8082');
     // var socket = io.connect('http://192.168.43.3:8082');
     // var socket = io.connect('http://127.0.0.1:8082');
 
-    socket.on('connect', function(){
+    socket.on('connect', function () {
         socket.emit('adduser', username);
     });
 
-    socket.on('startgame', function(listPlayers){
+    socket.on('startgame', function (listPlayers) {
         game.initPlayers(listPlayers);
         game.start();
     });
 
     socket.on('updatechat', function (username, data) {
-        var ul = document.querySelector(".chat");
-        var li = document.createElement("li");
+        let ul = document.querySelector(".chat");
+        let li = document.createElement("li");
         li.innerHTML =
             `<div class="from">${username} :</div><div class="message">${data}</div>`;
         ul.appendChild(li);
     });
 
-    var data = document.querySelector("#input-message");
-    data.addEventListener("keypress", function(evt) {
-        if(evt.keyCode == 13) {
+    let data = document.querySelector("#input-message");
+    data.addEventListener("keypress", function (evt) {
+        if (evt.keyCode == 13) {
             this.blur();
             sendMessage();
         }
     });
 
     function sendMessage() {
-        var message = data.value;
+        let message = data.value;
         data.value = "";
         socket.emit('sendchat', message);
     }
@@ -134,27 +134,29 @@ const GameFramework = function () {
         sceneObjects.push(new SceneObject(i * 100, i * 100, 100, 100))
     }
     /*sceneObjects.push(new SceneObject(0, 500, 500, 100));
-    sceneObjects.push(new SceneObject(50, 500, 500, 100));
-    sceneObjects.push(new SceneObject(100, 500, 500, 100));
-    sceneObjects.push(new SceneObject(1000, 500, 500, 100));
-    sceneObjects.push(new SceneObject(1000, 450, 10, 10));
-    sceneObjects.push(new SceneObject(1050, 450, 10, 10));
-    sceneObjects.push(new SceneObject(1100, 450, 10, 10));
-    sceneObjects.push(new SceneObject(1150, 450, 10, 10));
-    sceneObjects.push(new SceneObject(1200, 450, 20, 20));
-    sceneObjects.push(new SceneObject(1250, 450, 10, 50));
-    sceneObjects.push(new SceneObject(1300, 450, 50, 10));
-    sceneObjects.push(new SceneObject(1400, 450, 20, 20));
-    sceneObjects.push(new SceneObject(1450, 450, 30, 20));
-    sceneObjects.push(new SceneObject(1600, 0, 30, 2000));
-    sceneObjects.push(new SceneObject(1400, 875, 10, 10));
-    sceneObjects.push(new SceneObject(1350, 875, 10, 10));
-    sceneObjects.push(new SceneObject(1250, 875, 10, 10));
-    sceneObjects.push(new SceneObject(1500, 800, 10, 200));*/
+     sceneObjects.push(new SceneObject(50, 500, 500, 100));
+     sceneObjects.push(new SceneObject(100, 500, 500, 100));
+     sceneObjects.push(new SceneObject(1000, 500, 500, 100));
+     sceneObjects.push(new SceneObject(1000, 450, 10, 10));
+     sceneObjects.push(new SceneObject(1050, 450, 10, 10));
+     sceneObjects.push(new SceneObject(1100, 450, 10, 10));
+     sceneObjects.push(new SceneObject(1150, 450, 10, 10));
+     sceneObjects.push(new SceneObject(1200, 450, 20, 20));
+     sceneObjects.push(new SceneObject(1250, 450, 10, 50));
+     sceneObjects.push(new SceneObject(1300, 450, 50, 10));
+     sceneObjects.push(new SceneObject(1400, 450, 20, 20));
+     sceneObjects.push(new SceneObject(1450, 450, 30, 20));
+     sceneObjects.push(new SceneObject(1600, 0, 30, 2000));
+     sceneObjects.push(new SceneObject(1400, 875, 10, 10));
+     sceneObjects.push(new SceneObject(1350, 875, 10, 10));
+     sceneObjects.push(new SceneObject(1250, 875, 10, 10));
+     sceneObjects.push(new SceneObject(1500, 800, 10, 200));*/
     sceneObjects.push(new SceneObject(1000, 500, 100, 100));
     sceneObjects.push(new SceneObject(1100, 500, 100, 100));
     sceneObjects.push(new SceneObject(1200, 500, 100, 100));
-    sceneObjects.sort(function(a, b){return a.x - b.x});
+    sceneObjects.sort(function (a, b) {
+        return a.x - b.x
+    });
 
     function animate(delta) {
         ctx.clearRect(0, 0, w, h);
@@ -163,30 +165,28 @@ const GameFramework = function () {
             obj.draw(ctx);
         });
 
-       /* if(username !== "") {
-            let low = sceneObjects.binarySearch(players[username].getCoords().x, compareLow).option_low;
-            if (low == -1) {
-                low = 0;
-            }
-            let high = sceneObjects.binarySearch(players[username].getCoords().x + players[username].getSpriteWidth(), compareHigh).option_high;
+        let bullets = players[username].bullets;
+        bullets.forEach(function (obj) {
+            obj.draw(ctx);
+            obj.isInWindow();
+            obj.move(delta);
+        });
 
-            for (let i = low; i < high; i++) {
-                sceneObjects[i].draw(ctx);
+        //remove the bullets
+        for(let i = 0; i < bullets.length; i++) {
+            if(bullets[i].isOut()){
+                bullets.splice(i, 1);
             }
-        } else {
-            sceneObjects.forEach(function (obj) {
-                obj.draw(ctx);
-            });
-        }*/
+        }
 
-        for (let player in players){
+        for (let player in players) {
             players[player].draw(ctx);
             players[player].collideEngine(sceneObjects);
             players[player].move(delta, sceneObjects);
         }
     }
 
-    function initPlayers(playernames){
+    function initPlayers(playernames) {
         playernames.forEach(name => players[name] = new Player(1000, 100, w, h, animations[0]));
     }
 
@@ -219,13 +219,13 @@ const GameFramework = function () {
         requestAnimationFrame(mainLoop);
     };
 
-    const sendKeyboardEvent = function(username, event, boolean){
+    const sendKeyboardEvent = function (username, event, boolean) {
         socket.emit('keyboardevent', username, event, boolean);
     };
 
     const start = function () {
         console.log("loaded");
-        socket.on('keyboardevent', function(usernameServer, event, boolean){
+        socket.on('keyboardevent', function (usernameServer, event, boolean) {
             if (usernameServer !== username) {
                 if (event === 37) {
                     players[usernameServer].inputStates.left = boolean;
@@ -241,12 +241,12 @@ const GameFramework = function () {
             }
         });
 
-        socket.on("givemecoords", function(){
+        socket.on("givemecoords", function () {
             socket.emit("givemecoords", username, players[username].getCoords());
         });
 
-        socket.on("setcoords", function(usernameServer, coords){
-            if (usernameServer !== username){
+        socket.on("setcoords", function (usernameServer, coords) {
+            if (usernameServer !== username) {
                 players[usernameServer].setCoords(coords.x, coords.y/*, coords.vx, coords.vy*/);
             }
         });
@@ -284,6 +284,16 @@ const GameFramework = function () {
                 players[username].inputStates.space = false;
             }
             sendKeyboardEvent(username, event.keyCode, false);
+        }, false);
+
+        canvas.addEventListener('mousedown', function (evt) {
+            players[username].inputStates.mousedown = true;
+            //players[username].inputStates.mouseButton = evt.button;
+        }, false);
+        canvas.addEventListener('mouseup', function (evt) {
+            players[username].inputStates.mousedown = false;
+            //let rect = canvas.getBoundingClientRect();
+            players[username].onShoot(evt.clientX, evt.clientY);
         }, false);
 
         fpsContainer = document.createElement('div');
