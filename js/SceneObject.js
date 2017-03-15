@@ -45,10 +45,10 @@ function SceneObject(x, y, width, height) {
         return center > x && center < x + width;
     };
 
-    let leftFace   = faceBuilder(x        , y         , 1    , height, function (playerWidth)  { return x - playerWidth  - 1; }, isValidX);
-    let rightFace  = faceBuilder(x + width, y         , 1    , height, function ()             { return x + width  + 1; }      , isValidX);
-    let topFace    = faceBuilder(x        , y         , width, 1     , function (playerHeight) { return y - playerHeight - 1; }, isValidY);
-    let bottomFace = faceBuilder(x        , y + height, width, 1     , function ()             { return y + height + 1; }      , isValidY);
+    let leftFace   = faceBuilder(x        , y         , 1    , height, function (playerWidth)  { return x - playerWidth ; }, isValidX);
+    let rightFace  = faceBuilder(x + width, y         , 1    , height, function ()             { return x + width ; }      , isValidX);
+    let topFace    = faceBuilder(x        , y         , width, 1     , function (playerHeight) { return y - playerHeight ; }, isValidY);
+    let bottomFace = faceBuilder(x        , y + height, width, 1     , function ()             { return y + height ; }      , isValidY);
 
     let draw = function (ctx) {
         ctx.save();

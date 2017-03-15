@@ -15,7 +15,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('adduser', function(username){
         socket.username = username;
         players[username] = socket;
-        if (Object.keys(players).length === nbPlayersMax){
+        if (Object.keys(players).length <= nbPlayersMax){
             io.sockets.emit('startgame', Object.keys(players));
         }
     });

@@ -5,14 +5,16 @@
 function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     let vx = 0;
-    let XSPEED = 200;
-    let YSPEED = 300;
+    let XSPEED = 300;
+    let YSPEED = 500;
+    let GSPEED = 100;
     let vy = 0;
-    let g = 100;
+    let g = GSPEED;
     let angle = 0.0;
     let animName = "forward";
     let grounded = false;
     let inputStates = { right: false, left:false, up:false, down:false, space:false };
+    let isMovementBlocked = true;
 
     let getSpriteWidth = function () {
         return anim.animations[animName].width;
@@ -33,20 +35,24 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     let isInWindow = function () {
         if ((x + getSpriteWidth()) > canvasWidth) {
             x = canvasWidth - getSpriteWidth();
-            vx = -vx;
-            vy = 0;
-            grounded = true;
-        } else if (x < 0) {
-            x = 0;
-            vx = -vx;
-            vy = 0;
-            grounded = true;
-        }
-        if ((y + getSpriteHeight()) >= canvasHeight) {
-            y = canvasHeight - getSpriteHeight();
             vx = 0;
             vy = 0;
             grounded = true;
+            isMovementBlocked = true;
+        } else if (x < 0) {
+            x = 0;
+            vx = 0;
+            vy = 0;
+            grounded = true;
+            isMovementBlocked = true;
+        }
+        if ((y + getSpriteHeight()) >= canvasHeight) {
+            y = canvasHeight - getSpriteHeight();
+            g = 0;
+            vx = 0;
+            vy = 0;
+            grounded = true;
+            //isMovementBlocked = true;
         }
     };
 
@@ -137,6 +143,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
             grounded = true;
             vx = 0;
             vy = 0;
+            g = 0;
         }
         if (playerOverlap(bottomFace) && bottomFace.isValid(x, getSpriteWidth())) {
             y = bottomFace.onCollide();
@@ -148,11 +155,13 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
             x = leftFace.onCollide(getSpriteWidth());
             grounded = true;
             vx = 0;
+            isMovementBlocked = true;
         }
         if (playerOverlap(rightFace) && rightFace.isValid(y, getSpriteHeight())) {
             x = rightFace.onCollide();
             grounded = true;
             vx = 0;
+            isMovementBlocked = true;
         }
     };
 
@@ -200,20 +209,25 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     };
 
     let move = function (delta, objects) {
-        if (inputStates.left) {
-            vx = -XSPEED;
-            animName = "left";
-        }
+        let isMoving = false;
         if (inputStates.up) {
             vy = -YSPEED;
             grounded = false;
+            isMoving = false;
+        }
+        if (inputStates.left) {
+            vx = -XSPEED;
+            animName = "left";
+            isMoving = true;
         }
         if (inputStates.right) {
             vx = XSPEED;
             animName = "right";
+            isMoving = true;
         }
         if (inputStates.down) {
             animName = "forward";
+            isMoving = true;
         }
         if (inputStates.space) {
         }
@@ -223,16 +237,18 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         vy += g;
        /* x += calcDistanceToMove(delta, vx);
         y += calcDistanceToMove(delta, vy);*/
+        if (!isMoving) {
+            isMovementBlocked = true;
+        }
         checkCorrectMovement(calcDistanceToMove(delta, vx), calcDistanceToMove(delta, vy), objects)
     };
 
     let draw = function (ctx) {
         ctx.save();
-
         ctx.translate(x, y);
         ctx.rotate(angle);
-
-        if (vx == 0) {
+         if (isMovementBlocked) {
+        //if (vx == 0) {
             anim.render(animName, ctx, 0, 0, 1);
         } else {
             anim.renderMoving(animName, ctx, 0, 0, 1, animParams);
@@ -241,6 +257,8 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     };
 
     let collideEngine = function (objects) {
+        g = GSPEED;
+        isMovementBlocked = false;
         isInWindow();
         onPlayerOverlap(objects);
     };

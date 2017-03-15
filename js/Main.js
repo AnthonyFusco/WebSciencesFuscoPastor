@@ -11,8 +11,8 @@ let socket;
 let game;
 let username;
 function initSocket(username){
-    var socket = io.connect('http://192.168.43.3:8082');
-    // var socket = io.connect('http://127.0.0.1:8082');
+    // var socket = io.connect('http://192.168.43.3:8082');
+    var socket = io.connect('http://127.0.0.1:8082');
 
     socket.on('connect', function(){
         socket.emit('adduser', username);
@@ -82,7 +82,7 @@ const GameFramework = function () {
     for (let i = 0; i < 10; i++) {
         sceneObjects.push(new SceneObject(i * 100, i * 100, 100, 100))
     }
-    sceneObjects.push(new SceneObject(0, 500, 500, 100));
+    /*sceneObjects.push(new SceneObject(0, 500, 500, 100));
     sceneObjects.push(new SceneObject(50, 500, 500, 100));
     sceneObjects.push(new SceneObject(100, 500, 500, 100));
     sceneObjects.push(new SceneObject(1000, 500, 500, 100));
@@ -99,10 +99,11 @@ const GameFramework = function () {
     sceneObjects.push(new SceneObject(1400, 875, 10, 10));
     sceneObjects.push(new SceneObject(1350, 875, 10, 10));
     sceneObjects.push(new SceneObject(1250, 875, 10, 10));
-    sceneObjects.push(new SceneObject(1500, 800, 10, 200));
+    sceneObjects.push(new SceneObject(1500, 800, 10, 200));*/
+    sceneObjects.push(new SceneObject(1000, 500, 100, 100));
+    sceneObjects.push(new SceneObject(1100, 500, 100, 100));
+    sceneObjects.push(new SceneObject(1200, 500, 100, 100));
     sceneObjects.sort(function(a, b){return a.x - b.x});
-
-
 
     function animate(delta) {
         ctx.clearRect(0, 0, w, h);
@@ -111,13 +112,11 @@ const GameFramework = function () {
             obj.draw(ctx);
         });
 
-        for (var player in players){
+        for (let player in players){
             players[player].draw(ctx);
             players[player].collideEngine(sceneObjects);
             players[player].move(delta, sceneObjects);
         }
-
-
     }
 
     function initPlayers(playernames){
