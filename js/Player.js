@@ -36,13 +36,11 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         if ((x + getSpriteWidth()) > canvasWidth) {
             x = canvasWidth - getSpriteWidth();
             vx = 0;
-            vy = 0;
             grounded = true;
             isMovementBlocked = true;
         } else if (x < 0) {
             x = 0;
             vx = 0;
-            vy = 0;
             grounded = true;
             isMovementBlocked = true;
         }
