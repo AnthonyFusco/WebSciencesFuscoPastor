@@ -65,58 +65,6 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         return rectsOverlap(x, y, getSpriteWidth(), getSpriteHeight(), object.x, object.y, object.width, object.height);
     }
 
-    Array.prototype.binarySearch = function (find, comparator) {
-        let option_high;
-        let option_low;
-        let low = 0, high = this.length - 1, i, comparison, prev_comparison;
-        while (low <= high) {
-            i = Math.floor((low + high) / 2);
-            comparison = comparator(this[i], find);
-            prev_comparison = comparison;
-            if (comparison < 0) {
-                low = i + 1;
-                continue;
-            }
-            if (comparison > 0) {
-                high = i - 1;
-                continue;
-            }
-            break;
-            /*option_high = i;
-             option_low = i;
-             return {option_low, option_high};*/
-        }
-        if (prev_comparison < 0) {
-            option_low = i;
-            option_high = i + 1;
-        } else {
-            option_low = i - 1;
-            option_high = i;
-        }
-        return {option_low, option_high};
-    };
-
-    function compareLow(a, b) {
-        if (a.x < b) {
-            if (a.x + a.width < b) {
-                return -1;
-            }
-            else if (a.x + a.width > b) {
-                return 0;
-            } else {
-                return 0;
-            }
-        } else if (a.x > b) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
-    function compareHigh(a, b) {
-        return a.x - b;
-    }
-
     function onPlayerOverlap(objects) {
         let low = objects.binarySearch(x, compareLow).option_low;
         if (low == -1) {
@@ -275,6 +223,6 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     };
 
     return {
-        move: move, draw: draw, collideEngine: collideEngine, inputStates:inputStates, getCoords:getCoords, setCoords:setCoords
+        move: move, draw: draw, collideEngine: collideEngine, inputStates:inputStates, getCoords:getCoords, setCoords:setCoords, getSpriteWidth:getSpriteWidth, getSpriteHeight:getSpriteHeight
     };
 }
