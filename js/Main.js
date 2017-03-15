@@ -11,7 +11,9 @@ let socket;
 let game;
 let username;
 function initSocket(username){
-    var socket = io.connect('http://192.168.43.3:8082');
+    var socket = io.connect('http://192.168.43.158:8082');
+
+    // var socket = io.connect('http://192.168.43.3:8082');
     // var socket = io.connect('http://127.0.0.1:8082');
 
     socket.on('connect', function(){
