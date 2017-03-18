@@ -219,8 +219,8 @@ const GameFramework = function () {
         requestAnimationFrame(mainLoop);
     };
 
-    const sendKeyboardEvent = function (username, event, boolean) {
-        socket.emit('keyboardevent', username, event, boolean);
+    const sendKeyboardEvent = function (event, boolean) {
+        socket.emit('keyboardevent', event, boolean);
     };
 
     const start = function () {
@@ -242,7 +242,7 @@ const GameFramework = function () {
         });
 
         socket.on("givemecoords", function () {
-            socket.emit("givemecoords", username, players[username].getCoords());
+            socket.emit("givemecoords", players[username].getCoords());
         });
 
         socket.on("setcoords", function (usernameServer, coords) {
@@ -250,23 +250,27 @@ const GameFramework = function () {
                 players[usernameServer].setCoords(coords.x, coords.y/*, coords.vx, coords.vy*/);
             }
         });
+
+        socket.on("playerShooted", function(username, life){
+            //
+        })
         //add the listener to the main, window object, and update the states
         window.addEventListener('keydown', function (event) {
             if (event.keyCode === 37 && !players[username].inputStates.left) {
                 players[username].inputStates.left = true;
-                sendKeyboardEvent(username, event.keyCode, true);
+                sendKeyboardEvent(event.keyCode, true);
             } else if (event.keyCode === 38 && !players[username].inputStates.up) {
                 players[username].inputStates.up = true;
-                sendKeyboardEvent(username, event.keyCode, true);
+                sendKeyboardEvent(event.keyCode, true);
             } else if (event.keyCode === 39 && !players[username].inputStates.right) {
                 players[username].inputStates.right = true;
-                sendKeyboardEvent(username, event.keyCode, true);
+                sendKeyboardEvent(event.keyCode, true);
             } else if (event.keyCode === 40 && !players[username].inputStates.down) {
                 players[username].inputStates.right = true;
-                sendKeyboardEvent(username, event.keyCode, true);
+                sendKeyboardEvent(event.keyCode, true);
             } else if (event.keyCode === 32 && !players[username].inputStates.space) {
                 players[username].inputStates.space = true;
-                sendKeyboardEvent(username, event.keyCode, true);
+                sendKeyboardEvent(event.keyCode, true);
             }
         }, false);
 
@@ -283,7 +287,7 @@ const GameFramework = function () {
             } else if (event.keyCode === 32 && players[username].inputStates.space) {
                 players[username].inputStates.space = false;
             }
-            sendKeyboardEvent(username, event.keyCode, false);
+            sendKeyboardEvent(event.keyCode, false);
         }, false);
 
         canvas.addEventListener('mousedown', function (evt) {

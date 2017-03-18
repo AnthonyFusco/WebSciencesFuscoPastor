@@ -20,8 +20,8 @@ io.sockets.on('connection', function (socket) {
         }
     });
 
-    socket.on("keyboardevent", function(username, event, boolean){
-        io.sockets.emit("keyboardevent", username, event, boolean);
+    socket.on("keyboardevent", function(event, boolean){
+        io.sockets.emit("keyboardevent", socket.username, event, boolean);
     });
 
     socket.on('sendchat', function (data) {
@@ -32,9 +32,14 @@ io.sockets.on('connection', function (socket) {
         delete players[socket.username];
     });
 
-    socket.on("givemecoords", function (username, coords) {
-        io.sockets.emit("setcoords", username, coords);
+    socket.on("givemecoords", function (coords) {
+        io.sockets.emit("setcoords", socket.username, coords);
     });
+
+    socket.on("ihavebeenshot", function(life){
+        socket.life = life;
+        io.sockets.emit("playerShooted", socket.username, life);
+    })
 
     setInterval(function(){
         io.sockets.emit("givemecoords");

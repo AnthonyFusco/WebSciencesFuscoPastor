@@ -16,6 +16,12 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     let inputStates = { right: false, left:false, up:false, down:false, space:false, mousedown:false };
     let isMovementBlocked = true;
     let bullets = [];
+    let life = 10;
+
+    let shooted = function(bulletPower){
+        life = life - bulletPower;
+        socket.emit("ihavebeenshot", life);
+    }
 
     let getSpriteWidth = function () {
         return anim.animations[animName].width;
