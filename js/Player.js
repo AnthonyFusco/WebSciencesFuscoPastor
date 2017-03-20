@@ -219,12 +219,12 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     function amIShoot(otherBullets, playerName) {
         otherBullets.forEach(function (bullet) {
             //console.log("name " + playerName +" bullet " + bullet.data.username);
-            if (playerName !== bullet.data.username) {
-                //console.log(bullet.getX() + " " + bullet.getLastX());
-                if (rectsOverlap(x, y, getSpriteWidth(), getSpriteHeight(), bullet.getX(), bullet.getY(), bullet.getX() - bullet.getLastX(), bullet.getY() - bullet.getLastY())) {
+            //console.log(bullet.getX() + " " + bullet.getLastX());
+            if (rectsOverlap(x, y, getSpriteWidth(), getSpriteHeight(), bullet.getX(), bullet.getY(), bullet.getX() - bullet.getLastX(), bullet.getY() - bullet.getLastY())) {
+                if (playerName !== bullet.data.username) {
                     shooted(1, playerName);
-                    bullet.setOut(true);
                 }
+                bullet.setOut(true);
             }
         });
     }
@@ -248,11 +248,11 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
          vy = nvy;*/
     };
 
-    let setLife = function(newLife){
+    let setLife = function (newLife) {
         life = newLife;
     };
 
-    let getLife = function(){
+    let getLife = function () {
         return life;
     };
 
@@ -269,8 +269,8 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         inputStates: inputStates,
         getCoords: getCoords,
         setCoords: setCoords,
-        setLife:setLife,
-        getLife:getLife,
+        setLife: setLife,
+        getLife: getLife,
         getSpriteWidth: getSpriteWidth,
         getSpriteHeight: getSpriteHeight,
         onShoot: onShoot,
