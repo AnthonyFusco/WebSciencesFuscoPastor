@@ -13,18 +13,18 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     let angle = 0.0;
     let animName = "forward";
     let grounded = false;
-    let inputStates = { right: false, left:false, up:false, down:false, space:false, mousedown:false };
+    let inputStates = {right: false, left: false, up: false, down: false, space: false, mousedown: false};
     let isMovementBlocked = true;
     let bullets = [];
     let life = 10;
 
-    let shooted = function(bulletPower){
+    let shooted = function (bulletPower) {
         life = life - bulletPower;
         console.log("life " + life);
         socket.emit("ihavebeenshot", life);
     };
 
-    let shoot = function(bullet){
+    let shoot = function (bullet) {
         //console.log("shoot");
         socket.emit("shoot", bullet.data);
     };
@@ -193,8 +193,8 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
          vx = 0;
          }*/
         vy += g;
-       /* x += calcDistanceToMove(delta, vx);
-        y += calcDistanceToMove(delta, vy);*/
+        /* x += calcDistanceToMove(delta, vx);
+         y += calcDistanceToMove(delta, vy);*/
         if (!isMoving) {
             isMovementBlocked = true;
         }
@@ -218,15 +218,15 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     function amIShoot(otherBullets, playerName) {
         //console.log("size " + otherBullets.length);
-        otherBullets.forEach(function(bullet) {
+        otherBullets.forEach(function (bullet) {
             //console.log("name " + playerName +" bullet " + bullet.data.username);
             if (playerName !== bullet.data.username) {
-               // for (let i = 0; i < bullet.
-               // ) {
-                    if (playerOverlap(bullet)) {
-                        shooted(1);
-                        bullet.setOut(true);
-                 //   }
+                let bulletCollide = bullet;
+                bulletCollide.width = bulletCollide.x - bulletCollide.lastX;
+                bulletCollide.height = bulletCollide.y - bulletCollide.lastY;
+                if (playerOverlap(bulletCollide)) {
+                    shooted(1);
+                    bullet.setOut(true);
                 }
             }
         });
@@ -241,24 +241,32 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     };
 
     let getCoords = function () {
-        return { x : x, y: y/*, vx:vx,vy:vy*/};
+        return {x: x, y: y/*, vx:vx,vy:vy*/};
     };
 
-    let setCoords = function(nx, ny/*, nvx, nvy*/){
+    let setCoords = function (nx, ny/*, nvx, nvy*/) {
         x = nx;
         y = ny;
         /*vx = nvx;
-        vy = nvy;*/
+         vy = nvy;*/
     };
 
-    let onShoot = function(mousePosX, mousePosY) {
+    let onShoot = function (mousePosX, mousePosY) {
         let bullet = new Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username);
         bullets.push(bullet);
         return bullet;
     };
 
     return {
-        move: move, draw: draw, collideEngine: collideEngine, inputStates:inputStates, getCoords:getCoords, setCoords:setCoords, getSpriteWidth:getSpriteWidth, getSpriteHeight:getSpriteHeight, onShoot:onShoot,
-        bullets:bullets
+        move: move,
+        draw: draw,
+        collideEngine: collideEngine,
+        inputStates: inputStates,
+        getCoords: getCoords,
+        setCoords: setCoords,
+        getSpriteWidth: getSpriteWidth,
+        getSpriteHeight: getSpriteHeight,
+        onShoot: onShoot,
+        bullets: bullets
     };
 }
