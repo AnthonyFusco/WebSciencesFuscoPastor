@@ -85,6 +85,22 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         }
     }
 
+    function onPlayerOverlapSpikes(objects) {
+        let low = objects.binarySearch(x, compareLow).option_low;
+        if (low == -1) {
+            low = 0;
+        }
+        let high = objects.binarySearch(x + getSpriteWidth(), compareHigh).option_high;
+
+        //console.log("low : " + low + ", high : " + high + ", x : " + x);
+        for (let i = low; i < high; i++) {
+            let obj = objects[i];
+            if (playerOverlap(obj)) {
+                socket.emit('iwalkedonspikes');
+            }
+        }
+    }
+
     let onOverlap = function (obj) {
         let topFace = obj.faces["topFace"];
         let bottomFace = obj.faces["bottomFace"];
@@ -224,11 +240,12 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         });
     }
 
-    let collideEngine = function (objects, otherBullets, playerName) {
+    let collideEngine = function (objects, spikesObjects, otherBullets, playerName) {
         g = GSPEED;
         isMovementBlocked = false;
         isInWindow();
         onPlayerOverlap(objects);
+        onPlayerOverlapSpikes(spikesObjects);
         amIShoot(otherBullets, playerName);
     };
 

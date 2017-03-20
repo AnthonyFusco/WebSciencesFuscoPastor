@@ -47,6 +47,10 @@ io.sockets.on('connection', function (socket) {
         io.sockets.emit("newBullet", socket.username, data);
     });
 
+    socket.on('iwalkedonspikes', function(){
+        io.sockets.emit("endgame", socket.username);
+    });
+
     socket.on("endgame", function(loosername){
         io.sockets.emit("endgame", loosername);
     });

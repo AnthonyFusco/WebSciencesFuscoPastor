@@ -14,7 +14,7 @@ let isStarted = false;
 function initSocket(username) {
     //let socket = io.connect('http://192.168.43.158:8082');
     // let socket = io.connect('http://192.168.43.3:8082');
-    //let socket = io.connect('http://127.0.0.1:8082');
+     //let socket = io.connect('http://127.0.0.1:8082');
     let socket = io.connect('http://192.168.43.38:8082');
 
     socket.on('connect', function () {
@@ -22,7 +22,6 @@ function initSocket(username) {
     });
 
     socket.on('startgame', function (listPlayers) {
-        document.getElementById('button-restart').style.display = 'none';
         game.initPlayers(listPlayers);
         if (!isStarted) {
             game.start();
@@ -194,8 +193,10 @@ const GameFramework = function () {
         ctx.clearRect(0, 0, w, h);
 
         sceneObjects.forEach(function (obj) {
-         obj.draw(ctx);
+            obj.draw(ctx);
          });
+
+        spikeObjects.forEach(spike => spike.draw(ctx));
 
         //DONT DELETE
         //DONT DELETE
@@ -239,7 +240,7 @@ const GameFramework = function () {
             }
 
             players[player].draw(ctx);
-            players[player].collideEngine(sceneObjects, otherBullets, player);
+            players[player].collideEngine(sceneObjects, spikeObjects, otherBullets, player);
             players[player].move(delta, sceneObjects);
         }
     }
