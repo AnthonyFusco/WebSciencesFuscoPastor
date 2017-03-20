@@ -55,7 +55,8 @@ function initSocket(username) {
         socket.emit('sendchat', message);
     }
 
-    function restartGame() {
+    function restartGame(){
+        document.getElementById('button-restart').style.display = 'none';
         socket.emit('iwantrestart');
     }
 
