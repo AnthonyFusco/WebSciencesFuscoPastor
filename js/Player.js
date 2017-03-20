@@ -248,6 +248,14 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
          vy = nvy;*/
     };
 
+    let setLife = function(newLife){
+        life = newLife;
+    };
+
+    let getLife = function(){
+        return life;
+    };
+
     let onShoot = function (mousePosX, mousePosY) {
         let bullet = new Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username);
         bullets.push(bullet);

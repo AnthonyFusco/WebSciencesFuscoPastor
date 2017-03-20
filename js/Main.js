@@ -263,6 +263,7 @@ const GameFramework = function () {
         });
 
         socket.on("playerShooted", function(username, life){
+            debugger;
             players[username].life = life;
             if (life <= 0){
                 socket.emit('endgame', username);
