@@ -174,7 +174,9 @@ const GameFramework = function () {
             let bullets = players[player].bullets;
             let otherBullets = [];
             for(let other in players) {
-                otherBullets.push.apply(otherBullets, players[other].bullets);
+                if(other != player) {
+                    otherBullets.push.apply(otherBullets, players[other].bullets);
+                }
             }
             bullets.forEach(function (obj) {
                 obj.draw(ctx);

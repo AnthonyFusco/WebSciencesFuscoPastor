@@ -20,7 +20,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     let shooted = function (bulletPower, playerName) {
         life = life - bulletPower;
-        //console.log("life " + life);
+        console.log("life " + life);
         socket.emit("iShotYou", life, playerName);
     };
 
@@ -217,6 +217,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     };
 
     function amIShoot(otherBullets, playerName) {
+        console.log(otherBullets.length);
         otherBullets.forEach(function (bullet) {
             //console.log("name " + playerName +" bullet " + bullet.data.username);
             //console.log(bullet.getX() + " " + bullet.getLastX());
