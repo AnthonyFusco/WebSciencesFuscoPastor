@@ -43,7 +43,6 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on("shoot", function(data){
-        console.log('new');
         io.sockets.emit("newBullet", socket.username, data);
     });
 
@@ -66,5 +65,5 @@ io.sockets.on('connection', function (socket) {
 
     setInterval(function(){
         io.sockets.emit("givemecoords");
-    }, 250);
+    }, 125);
 });

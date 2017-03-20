@@ -40,7 +40,7 @@ function initSocket(username) {
         for(let player in game.players){
             game.players[player].setLife(0);
         }
-
+        document.getElementById('text-looser').innerHTML = loosername + " a perdu !!!"
         document.getElementById('button-restart').style.display = 'initial';
     });
 
@@ -59,6 +59,7 @@ function initSocket(username) {
     }
 
     function restartGame(){
+        document.getElementById('text-looser').style.display = 'none';
         document.getElementById('button-restart').style.display = 'none';
         socket.emit('iwantrestart');
     }
