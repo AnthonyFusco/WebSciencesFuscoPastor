@@ -22,7 +22,6 @@ function initSocket(username) {
     });
 
     socket.on('startgame', function (listPlayers) {
-        document.getElementById('button-restart').style.display = 'none';
         game.initPlayers(listPlayers);
         if (!isStarted) {
             game.start();
@@ -56,6 +55,7 @@ function initSocket(username) {
     }
 
     function restartGame(){
+        document.getElementById('button-restart').style.display = 'none';
         socket.emit('iwantrestart');
     }
 
