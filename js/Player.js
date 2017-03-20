@@ -226,9 +226,8 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
                     if (playerName !== username) {
                         shooted(1, playerName);
                     }
-                    bullet.setOut(true);
                 }
-
+                bullet.setOut(true);
             }
         });
     }
