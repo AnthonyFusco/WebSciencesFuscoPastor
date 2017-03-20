@@ -40,7 +40,8 @@ function initSocket(username) {
         for(let player in game.players){
             game.players[player].setLife(0);
         }
-        document.getElementById('text-looser').innerHTML = loosername + " a perdu !!!"
+        document.getElementById('text-looser').innerHTML = loosername + " a perdu !!!";
+        document.getElementById('text-looser').style.display = 'initial';
         document.getElementById('button-restart').style.display = 'initial';
     });
 
