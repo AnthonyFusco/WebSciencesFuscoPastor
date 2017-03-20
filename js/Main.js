@@ -32,6 +32,10 @@ function initSocket(username) {
         ul.appendChild(li);
     });
 
+    socket.on('endgame', function(loosername){
+        document.getElementById('#modal').modal();
+    });
+
     let data = document.querySelector("#input-message");
     data.addEventListener("keypress", function (evt) {
         if (evt.keyCode == 13) {
@@ -259,6 +263,9 @@ const GameFramework = function () {
 
         socket.on("playerShooted", function(username, life){
             players[username].life = life;
+            if (life <= 0){
+                socket.emit('endgame', username);
+            }
         });
 
         socket.on("newBullet", function(serverUsername, data){

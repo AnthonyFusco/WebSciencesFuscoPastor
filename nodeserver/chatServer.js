@@ -45,6 +45,10 @@ io.sockets.on('connection', function (socket) {
         io.sockets.emit("newBullet", socket.username, data);
     });
 
+    socket.on("endgame", function(loosername){
+        io.sockets.emit("endgame", loosername);
+    });
+
     setInterval(function(){
         io.sockets.emit("givemecoords");
     }, 250);
