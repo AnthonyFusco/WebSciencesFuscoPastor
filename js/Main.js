@@ -165,23 +165,29 @@ const GameFramework = function () {
             obj.draw(ctx);
         });
 
-        let bullets = players[username].bullets;
-        bullets.forEach(function (obj) {
-            obj.draw(ctx);
-            obj.isInWindow();
-            obj.move(delta);
-        });
-
-        //remove the bullets
-        for(let i = 0; i < bullets.length; i++) {
-            if(bullets[i].isOut()){
-                bullets.splice(i, 1);
-            }
-        }
-
         for (let player in players) {
+            let bullets = players[player].bullets;
+            let otherBullets = [];
+            for(let other in players) {
+                if (other !== player){
+                    otherBullets.push.apply(otherBullets, players[other].bullets);
+                }
+            }
+            bullets.forEach(function (obj) {
+                obj.draw(ctx);
+                obj.isInWindow();
+                obj.move(delta);
+            });
+
+            //remove the bullets
+            for(let i = 0; i < bullets.length; i++) {
+                if(bullets[i].isOut()){
+                    bullets.splice(i, 1);
+                }
+            }
+
             players[player].draw(ctx);
-            players[player].collideEngine(sceneObjects);
+            players[player].collideEngine(sceneObjects, otherBullets, player);
             players[player].move(delta, sceneObjects);
         }
     }
@@ -252,8 +258,14 @@ const GameFramework = function () {
         });
 
         socket.on("playerShooted", function(username, life){
-            //
-        })
+            players[username].life = life;
+        });
+
+        socket.on("newBullet", function(serverUsername, data){
+            if (username !== serverUsername) {
+                players[username].bullets.push(new Bullet(data.x, data.y, data.mousePosX, data.mousePosY, w, h, serverUsername));
+            }
+        });
         //add the listener to the main, window object, and update the states
         window.addEventListener('keydown', function (event) {
             if (event.keyCode === 37 && !players[username].inputStates.left) {
@@ -297,7 +309,8 @@ const GameFramework = function () {
         canvas.addEventListener('mouseup', function (evt) {
             players[username].inputStates.mousedown = false;
             //let rect = canvas.getBoundingClientRect();
-            players[username].onShoot(evt.clientX, evt.clientY);
+            let bullet = players[username].onShoot(evt.clientX, evt.clientY);
+            socket.emit("shoot", bullet.data);
         }, false);
 
         fpsContainer = document.createElement('div');

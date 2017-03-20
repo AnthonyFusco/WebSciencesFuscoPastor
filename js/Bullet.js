@@ -2,8 +2,10 @@
  * Created by Anthony Fusco on 15/03/2017.
  */
 
-function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight) {
+function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username) {
 
+    let lastX = x;
+    let lastY = y;
     let width = 10;
     let height = 10;
     let XSPEED = 1000;
@@ -16,6 +18,7 @@ function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight) {
     let dy = y - mousePosY;
     let angle = Math.atan2(dy, dx);
     let out = false;
+    let data = {x, y, mousePosX, mousePosY, username};
 
     let draw = function (ctx) {
         ctx.save();
@@ -27,6 +30,8 @@ function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight) {
 
     let move = function (delta) {
         //vy +- = g;
+        lastX = x;
+        lastY = y;
         x -= calcDistanceToMove(delta, vx)*Math.cos(angle);
         y -= calcDistanceToMove(delta, vy)*Math.sin(angle);
     };
@@ -54,11 +59,15 @@ function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight) {
         return out;
     };
 
+    let setOut = function(bool) {
+        out = bool;
+    };
+
     let calcDistanceToMove = function (delta, speed) {
         return (speed * delta) / 1000;
     };
 
     return {
-        draw:draw, move:move, isInWindow:isInWindow, isOut:isOut
+        draw:draw, move:move, isInWindow:isInWindow, isOut:isOut, setOut:setOut, data:data, x:x, y:y, width:width, height:height, lastX:lastX, lastY: lastY
     };
 }

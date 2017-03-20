@@ -20,8 +20,14 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     let shooted = function(bulletPower){
         life = life - bulletPower;
+        console.log("life " + life);
         socket.emit("ihavebeenshot", life);
-    }
+    };
+
+    let shoot = function(bullet){
+        //console.log("shoot");
+        socket.emit("shoot", bullet.data);
+    };
 
     let getSpriteWidth = function () {
         return anim.animations[animName].width;
@@ -197,22 +203,41 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     let draw = function (ctx) {
         ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(angle);
-         if (isMovementBlocked) {
-        //if (vx == 0) {
-            anim.render(animName, ctx, 0, 0, 1);
-        } else {
-            anim.renderMoving(animName, ctx, 0, 0, 1, animParams);
+        if (life > 0) {
+            ctx.translate(x, y);
+            ctx.rotate(angle);
+            if (isMovementBlocked) {
+                //if (vx == 0) {
+                anim.render(animName, ctx, 0, 0, 1);
+            } else {
+                anim.renderMoving(animName, ctx, 0, 0, 1, animParams);
+            }
         }
         ctx.restore();
     };
 
-    let collideEngine = function (objects) {
+    function amIShoot(otherBullets, playerName) {
+        //console.log("size " + otherBullets.length);
+        otherBullets.forEach(function(bullet) {
+            //console.log("name " + playerName +" bullet " + bullet.data.username);
+            if (playerName !== bullet.data.username) {
+               // for (let i = 0; i < bullet.
+               // ) {
+                    if (playerOverlap(bullet)) {
+                        shooted(1);
+                        bullet.setOut(true);
+                 //   }
+                }
+            }
+        });
+    }
+
+    let collideEngine = function (objects, otherBullets, playerName) {
         g = GSPEED;
         isMovementBlocked = false;
         isInWindow();
         onPlayerOverlap(objects);
+        amIShoot(otherBullets, playerName);
     };
 
     let getCoords = function () {
@@ -227,7 +252,9 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     };
 
     let onShoot = function(mousePosX, mousePosY) {
-        bullets.push(new Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight));
+        let bullet = new Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username);
+        bullets.push(bullet);
+        return bullet;
     };
 
     return {

@@ -4,13 +4,13 @@ var app = express()
     , server = http.createServer(app)
     , io = require('socket.io').listen(server);
 
-var PORT = 8082;
+let PORT = 8082;
 server.listen(PORT);
 console.log("server on http://127.0.0.1:" + PORT);
 
 app.use(express.static('./'));
-var nbPlayersMax = 2;
-var players = {};
+let nbPlayersMax = 2;
+let players = {};
 io.sockets.on('connection', function (socket) {
     socket.on('adduser', function(username){
         socket.username = username;
@@ -39,7 +39,11 @@ io.sockets.on('connection', function (socket) {
     socket.on("ihavebeenshot", function(life){
         socket.life = life;
         io.sockets.emit("playerShooted", socket.username, life);
-    })
+    });
+
+    socket.on("shoot", function(data){
+        io.sockets.emit("newBullet", socket.username, data);
+    });
 
     setInterval(function(){
         io.sockets.emit("givemecoords");
