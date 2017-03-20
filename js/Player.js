@@ -20,13 +20,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     let shooted = function (bulletPower, playerName) {
         life = life - bulletPower;
-        console.log("life " + life);
         socket.emit("iShotYou", life, playerName);
-    };
-
-    let shoot = function (bullet) {
-        //console.log("shoot");
-        socket.emit("shoot", bullet.data);
     };
 
     let getSpriteWidth = function () {
@@ -82,7 +76,6 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         }
         let high = objects.binarySearch(x + getSpriteWidth(), compareHigh).option_high;
 
-        //console.log("low : " + low + ", high : " + high + ", x : " + x);
         for (let i = low; i < high; i++) {
             let obj = objects[i];
             if (playerOverlap(obj)) {
@@ -217,17 +210,14 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     };
 
     function amIShoot(otherBullets, playerName) {
-        console.log(otherBullets.length);
         otherBullets.forEach(function (bullet) {
-            //console.log("name " + playerName +" bullet " + bullet.data.username);
-            //console.log(bullet.getX() + " " + bullet.getLastX());
             if (rectsOverlap(x, y, getSpriteWidth(), getSpriteHeight(), bullet.getX(), bullet.getY(), bullet.getX() - bullet.getLastX(), bullet.getY() - bullet.getLastY())) {
                 if (playerName !== bullet.data.username) {
                     if (playerName !== username) {
                         shooted(1, playerName);
                     }
+                    bullet.setOut(true);
                 }
-                bullet.setOut(true);
             }
         });
     }
@@ -261,7 +251,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     let onShoot = function (mousePosX, mousePosY) {
         let bullet = new Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username);
-        bullets.push(bullet);
+        //bullets.push(bullet);
         return bullet;
     };
 

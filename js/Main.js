@@ -174,9 +174,7 @@ const GameFramework = function () {
             let bullets = players[player].bullets;
             let otherBullets = [];
             for(let other in players) {
-                if(other != player) {
-                    otherBullets.push.apply(otherBullets, players[other].bullets);
-                }
+                otherBullets = otherBullets.concat(players[other].bullets);
             }
             bullets.forEach(function (obj) {
                 obj.draw(ctx);
@@ -270,9 +268,7 @@ const GameFramework = function () {
         });
 
         socket.on("newBullet", function(serverUsername, data){
-            if (username !== serverUsername) {
-                players[username].bullets.push(new Bullet(data.x, data.y, data.mousePosX, data.mousePosY, w, h, serverUsername));
-            }
+            players[serverUsername].bullets.push(new Bullet(data.x, data.y, data.mousePosX, data.mousePosY, w, h, serverUsername));
         });
         //add the listener to the main, window object, and update the states
         window.addEventListener('keydown', function (event) {
