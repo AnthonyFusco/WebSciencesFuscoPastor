@@ -221,10 +221,10 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         otherBullets.forEach(function (bullet) {
             //console.log("name " + playerName +" bullet " + bullet.data.username);
             if (playerName !== bullet.data.username) {
-                let bulletCollide = bullet;
-                bulletCollide.width = bulletCollide.x - bulletCollide.lastX;
-                bulletCollide.height = bulletCollide.y - bulletCollide.lastY;
-                if (playerOverlap(bulletCollide)) {
+               // let bulletCollide = bullet;
+               // bulletCollide.width = bulletCollide.x - bulletCollide.lastX;
+               // bulletCollide.height = bulletCollide.y - bulletCollide.lastY;
+                if (playerOverlap(bullet)) {
                     shooted(1);
                     bullet.setOut(true);
                 }
