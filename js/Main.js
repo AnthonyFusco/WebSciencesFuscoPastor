@@ -37,6 +37,10 @@ function initSocket(username) {
     });
 
     socket.on('endgame', function (loosername) {
+        for(let player in game.players){
+            game.players[player].setLife(0);
+        }
+
         document.getElementById('button-restart').style.display = 'initial';
     });
 
@@ -370,8 +374,10 @@ const GameFramework = function () {
         canvas.addEventListener('mouseup', function (evt) {
             players[username].inputStates.mousedown = false;
             //let rect = canvas.getBoundingClientRect();
-            let bullet = players[username].onShoot(evt.clientX, evt.clientY);
-            socket.emit("shoot", bullet.data);
+            if (players[username].getLife() > 0){
+                let bullet = players[username].onShoot(evt.clientX, evt.clientY);
+                socket.emit("shoot", bullet.data);
+            }
         }, false);
 
         canvas.addEventListener('drag', function (evt) {
@@ -385,7 +391,8 @@ const GameFramework = function () {
 
     return {
         start: start,
-        initPlayers: initPlayers
+        initPlayers: initPlayers,
+        players:players
     };
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

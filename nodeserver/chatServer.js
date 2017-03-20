@@ -48,6 +48,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('iwalkedonspikes', function(){
+        socket.life = 0;
         io.sockets.emit("endgame", socket.username);
     });
 
