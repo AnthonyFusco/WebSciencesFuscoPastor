@@ -143,6 +143,7 @@ const GameFramework = function () {
     let players = {};
 
     let sceneObjects = [];
+    let spikeObjects = [];
     let widthSceneObject = w / 20;
     let heightSceneObject = h / 10;
 
