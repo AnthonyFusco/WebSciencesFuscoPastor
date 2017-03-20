@@ -313,6 +313,8 @@ const GameFramework = function () {
             socket.emit("shoot", bullet.data);
         }, false);
 
+        canvas.addEventListener('drag', function(evt){}, false);
+
         fpsContainer = document.createElement('div');
         document.body.appendChild(fpsContainer);
 
