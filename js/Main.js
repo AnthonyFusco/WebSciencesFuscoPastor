@@ -323,10 +323,10 @@ const GameFramework = function () {
             }
         });
 
-        socket.on("playerShooted", function (username, life) {
-            players[username].setLife(life);
+        socket.on("playerShooted", function (serveruser, life) {
+            players[serveruser].setLife(life);
             if (life <= 0) {
-                socket.emit('endgame', username);
+                socket.emit('endgame', serveruser);
             }
         });
 
