@@ -20,7 +20,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     let shooted = function (bulletPower, playerName) {
         life = life - bulletPower;
-        console.log("life " + life);
+        //console.log("life " + life);
         socket.emit("iShotYou", life, playerName);
     };
 
@@ -269,6 +269,8 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         inputStates: inputStates,
         getCoords: getCoords,
         setCoords: setCoords,
+        setLife:setLife,
+        getLife:getLife,
         getSpriteWidth: getSpriteWidth,
         getSpriteHeight: getSpriteHeight,
         onShoot: onShoot,
