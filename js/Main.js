@@ -34,7 +34,10 @@ function initSocket(username) {
     });
 
     socket.on('endgame', function(loosername){
-        alert(loosername + " a perdu !");
+        let restart = confirm(loosername + " a perdu ! Rejouer ?");
+        if(restart){
+            socket.emit('iwantrestart');
+        }
     });
 
     let data = document.querySelector("#input-message");

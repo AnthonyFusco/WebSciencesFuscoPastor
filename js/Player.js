@@ -76,6 +76,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         }
         let high = objects.binarySearch(x + getSpriteWidth(), compareHigh).option_high;
 
+        //console.log("low : " + low + ", high : " + high + ", x : " + x);
         for (let i = low; i < high; i++) {
             let obj = objects[i];
             if (playerOverlap(obj)) {
@@ -218,6 +219,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
                     }
                     bullet.setOut(true);
                 }
+
             }
         });
     }

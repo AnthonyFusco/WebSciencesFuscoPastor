@@ -11,6 +11,7 @@ console.log("server on http://127.0.0.1:" + PORT);
 app.use(express.static('./'));
 let nbPlayersMax = 2;
 let players = {};
+let restart = 0;
 io.sockets.on('connection', function (socket) {
     socket.on('adduser', function(username){
         socket.username = username;
@@ -42,11 +43,20 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on("shoot", function(data){
+        console.log('new');
         io.sockets.emit("newBullet", socket.username, data);
     });
 
     socket.on("endgame", function(loosername){
         io.sockets.emit("endgame", loosername);
+    });
+
+    socket.on('iwantrestart', function(){
+        restart++;
+        if (Object.keys(players).length == restart){
+            restart = 0;
+            io.sockets.emit('startgame', Object.keys(players));
+        }
     });
 
     setInterval(function(){
