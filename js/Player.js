@@ -190,9 +190,9 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         }
         if (inputStates.space) {
         }
-        /*if(!inputStates.left && !inputStates.right) {
+        if(!inputStates.left && !inputStates.right) {
          vx = 0;
-         }*/
+         }
         vy += g;
         /* x += calcDistanceToMove(delta, vx);
          y += calcDistanceToMove(delta, vy);*/

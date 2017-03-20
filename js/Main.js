@@ -153,28 +153,26 @@ const GameFramework = function () {
     let widthSceneObject = w / 20;
     let heightSceneObject = h / 10;
 
-    /*for (let i = 0; i < 10; i++) {
-        sceneObjects.push(new SceneObject(i * widthSceneObject, i * heightSceneObject, widthSceneObject, heightSceneObject))
-    }
-
-    sceneObjects.push(new SceneObject(1000, 500, widthSceneObject, heightSceneObject));
-    sceneObjects.push(new SceneObject(1100, 500, widthSceneObject, heightSceneObject));
-    sceneObjects.push(new SceneObject(1200, 500, widthSceneObject, heightSceneObject));*/
     sceneObjects.push(new SceneObject(widthSceneObject, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+
+    sceneObjects.push(new SceneObject(widthSceneObject, heightSceneObject * 7.5, widthSceneObject / 2, heightSceneObject / 2));
+    sceneObjects.push(new SceneObject(widthSceneObject * 2, heightSceneObject * 6.5, widthSceneObject / 2, heightSceneObject / 2));
+
     sceneObjects.push(new SceneObject(widthSceneObject * 2, heightSceneObject * 9, widthSceneObject, heightSceneObject));
-    sceneObjects.push(new SceneObject(widthSceneObject * 2, heightSceneObject * 8, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 2, heightSceneObject * 8.5, widthSceneObject, heightSceneObject / 2));
 
     spikeObjects.push(new SpikeSceneObject(widthSceneObject * 3, heightSceneObject * 9, widthSceneObject, heightSceneObject));
 
     sceneObjects.push(new SceneObject(widthSceneObject * 4, heightSceneObject * 9, widthSceneObject, heightSceneObject));
-    sceneObjects.push(new SceneObject(widthSceneObject * 4, heightSceneObject * 8, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 4, heightSceneObject * 8.5, widthSceneObject, heightSceneObject / 2));
     sceneObjects.push(new SceneObject(widthSceneObject * 5, heightSceneObject * 9, widthSceneObject, heightSceneObject));
 
-    sceneObjects.push(new SceneObject(widthSceneObject * 3, heightSceneObject * 6, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 3, heightSceneObject * 5.5, widthSceneObject, heightSceneObject / 2));
     sceneObjects.push(new SceneObject(widthSceneObject * 4, heightSceneObject * 5, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 5, heightSceneObject * 4, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 6, heightSceneObject * 3, widthSceneObject, heightSceneObject));
 
+    sceneObjects.push(new SceneObject(widthSceneObject * 6, heightSceneObject * 3, widthSceneObject / 2, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 7, heightSceneObject * 3, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 8, heightSceneObject * 3, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 9, heightSceneObject * 3, widthSceneObject, heightSceneObject));
@@ -185,16 +183,20 @@ const GameFramework = function () {
     sceneObjects.push(new SceneObject(widthSceneObject * 13, heightSceneObject * 3, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 14, heightSceneObject * 4, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 15, heightSceneObject * 5, widthSceneObject, heightSceneObject));
-    sceneObjects.push(new SceneObject(widthSceneObject * 16, heightSceneObject * 6, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 16, heightSceneObject * 5.5, widthSceneObject, heightSceneObject / 2));
 
     sceneObjects.push(new SceneObject(widthSceneObject * 14, heightSceneObject * 9, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 15, heightSceneObject * 9, widthSceneObject, heightSceneObject));
-    sceneObjects.push(new SceneObject(widthSceneObject * 15, heightSceneObject * 8, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 15, heightSceneObject * 8.5, widthSceneObject, heightSceneObject / 2));
 
     spikeObjects.push(new SpikeSceneObject(widthSceneObject * 16, heightSceneObject * 9, widthSceneObject, heightSceneObject));
 
     sceneObjects.push(new SceneObject(widthSceneObject * 17, heightSceneObject * 9, widthSceneObject, heightSceneObject));
-    sceneObjects.push(new SceneObject(widthSceneObject * 17, heightSceneObject * 8, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 17, heightSceneObject * 8.5, widthSceneObject, heightSceneObject / 2));
+
+    sceneObjects.push(new SceneObject(widthSceneObject * 18.5, heightSceneObject * 7.5, widthSceneObject / 2, heightSceneObject / 2));
+    sceneObjects.push(new SceneObject(widthSceneObject * 17.5, heightSceneObject * 6.5, widthSceneObject / 2, heightSceneObject / 2));
+
     sceneObjects.push(new SceneObject(widthSceneObject * 18, heightSceneObject * 9, widthSceneObject, heightSceneObject));
 
     sceneObjects.sort(function (a, b) {
