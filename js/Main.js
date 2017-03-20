@@ -33,7 +33,7 @@ function initSocket(username) {
     });
 
     socket.on('endgame', function(loosername){
-        document.getElementById('#modal').modal();
+        alert(loosername + " a perdu !");
     });
 
     let data = document.querySelector("#input-message");
