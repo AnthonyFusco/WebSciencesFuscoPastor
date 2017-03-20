@@ -10,6 +10,7 @@ let animations = [];
 let socket;
 let game;
 let username;
+let isStarted = false;
 function initSocket(username) {
     //let socket = io.connect('http://192.168.43.158:8082');
     // let socket = io.connect('http://192.168.43.3:8082');
@@ -23,7 +24,9 @@ function initSocket(username) {
     socket.on('startgame', function (listPlayers) {
         document.getElementById('button-restart').style.display = 'none';
         game.initPlayers(listPlayers);
-        game.start();
+        if (!isStarted) {
+            game.start();
+        }
     });
 
     socket.on('updatechat', function (username, data) {
@@ -143,24 +146,7 @@ const GameFramework = function () {
     for (let i = 0; i < 10; i++) {
         sceneObjects.push(new SceneObject(i * 100, i * 100, 100, 100))
     }
-    /*sceneObjects.push(new SceneObject(0, 500, 500, 100));
-     sceneObjects.push(new SceneObject(50, 500, 500, 100));
-     sceneObjects.push(new SceneObject(100, 500, 500, 100));
-     sceneObjects.push(new SceneObject(1000, 500, 500, 100));
-     sceneObjects.push(new SceneObject(1000, 450, 10, 10));
-     sceneObjects.push(new SceneObject(1050, 450, 10, 10));
-     sceneObjects.push(new SceneObject(1100, 450, 10, 10));
-     sceneObjects.push(new SceneObject(1150, 450, 10, 10));
-     sceneObjects.push(new SceneObject(1200, 450, 20, 20));
-     sceneObjects.push(new SceneObject(1250, 450, 10, 50));
-     sceneObjects.push(new SceneObject(1300, 450, 50, 10));
-     sceneObjects.push(new SceneObject(1400, 450, 20, 20));
-     sceneObjects.push(new SceneObject(1450, 450, 30, 20));
-     sceneObjects.push(new SceneObject(1600, 0, 30, 2000));
-     sceneObjects.push(new SceneObject(1400, 875, 10, 10));
-     sceneObjects.push(new SceneObject(1350, 875, 10, 10));
-     sceneObjects.push(new SceneObject(1250, 875, 10, 10));
-     sceneObjects.push(new SceneObject(1500, 800, 10, 200));*/
+
     sceneObjects.push(new SceneObject(1000, 500, 100, 100));
     sceneObjects.push(new SceneObject(1100, 500, 100, 100));
     sceneObjects.push(new SceneObject(1200, 500, 100, 100));
@@ -239,6 +225,7 @@ const GameFramework = function () {
 
     const start = function () {
         console.log("loaded");
+        isStarted = true;
         socket.on('keyboardevent', function (usernameServer, event, boolean) {
             if (usernameServer !== username) {
                 if (event === 37) {
