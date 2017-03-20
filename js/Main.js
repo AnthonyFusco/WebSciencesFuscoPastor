@@ -153,11 +153,13 @@ const GameFramework = function () {
 
     sceneObjects.push(new SceneObject(1000, 500, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(1100, 500, widthSceneObject, heightSceneObject));
-
     sceneObjects.push(new SceneObject(1200, 500, widthSceneObject, heightSceneObject));*/
     sceneObjects.push(new SceneObject(widthSceneObject, heightSceneObject * 9, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 2, heightSceneObject * 9, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 2, heightSceneObject * 8, widthSceneObject, heightSceneObject));
+
+    spikeObjects.push(new SpikeSceneObject(widthSceneObject * 3, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+
     sceneObjects.push(new SceneObject(widthSceneObject * 4, heightSceneObject * 9, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 4, heightSceneObject * 8, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 5, heightSceneObject * 9, widthSceneObject, heightSceneObject));
@@ -182,6 +184,9 @@ const GameFramework = function () {
     sceneObjects.push(new SceneObject(widthSceneObject * 14, heightSceneObject * 9, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 15, heightSceneObject * 9, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 15, heightSceneObject * 8, widthSceneObject, heightSceneObject));
+
+    spikeObjects.push(new SpikeSceneObject(widthSceneObject * 16, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+
     sceneObjects.push(new SceneObject(widthSceneObject * 17, heightSceneObject * 9, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 17, heightSceneObject * 8, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 18, heightSceneObject * 9, widthSceneObject, heightSceneObject));
