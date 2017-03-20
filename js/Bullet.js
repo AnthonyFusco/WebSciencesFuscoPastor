@@ -34,22 +34,10 @@ function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username)
         lastY = y;
         x -= calcDistanceToMove(delta, vx)*Math.cos(angle);
         y -= calcDistanceToMove(delta, vy)*Math.sin(angle);
+        console.log("bite " + x + " " + lastX);
     };
 
     let isInWindow = function () {
-       /* if ((x + width) > canvasWidth) {
-            x = canvasWidth - width - 5;
-            vx = 0;
-        } else if (x < 0) {
-            x = 0;
-            vx = 0;
-        }
-        if ((y + height) >= canvasHeight) {
-            y = canvasHeight - height - 5;
-            g = 0;
-            vx = 0;
-            vy = 0;
-        }*/
         if((x + width) > canvasWidth || x < 0 || (y + height) >= canvasHeight || y > canvasHeight) {
             out = true;
         }
@@ -67,7 +55,40 @@ function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username)
         return (speed * delta) / 1000;
     };
 
+    let getX = function() {
+        return x;
+    };
+
+    let getY = function() {
+        return y;
+    };
+
+    let getLastX = function() {
+        return lastX;
+    };
+
+    let getLastY = function() {
+        return lastY;
+    };
+
+    let getWidth = function() {
+        return width;
+    };
+
+    let getHeight = function() {
+        return height;
+    };
+
+    let setWidth = function(w) {
+        width = w;
+    };
+
+    let setHeight = function(h) {
+        height = h;
+    };
+
     return {
-        draw:draw, move:move, isInWindow:isInWindow, isOut:isOut, setOut:setOut, data:data, x:x, y:y, width:width, height:height, lastX:lastX, lastY: lastY
+        draw:draw, move:move, isInWindow:isInWindow, isOut:isOut, setOut:setOut, data:data, getX:getX, getY:getY, getWidth:getWidth, getHeight:getHeight, getLastX:getLastX, getLastY:getLastY,
+        setWidth:setWidth, setHeight:setHeight
     };
 }
