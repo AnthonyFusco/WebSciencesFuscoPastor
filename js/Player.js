@@ -223,8 +223,9 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
             if (rectsOverlap(x, y, getSpriteWidth(), getSpriteHeight(), bullet.getX(), bullet.getY(), bullet.getX() - bullet.getLastX(), bullet.getY() - bullet.getLastY())) {
                 if (playerName !== bullet.data.username) {
                     shooted(1, playerName);
+                    bullet.setOut(true);
                 }
-                bullet.setOut(true);
+
             }
         });
     }
