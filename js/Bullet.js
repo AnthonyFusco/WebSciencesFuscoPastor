@@ -86,8 +86,25 @@ function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username)
         height = h;
     };
 
+    function rectsOverlap(x1, y1, w1, h1, x2, y2, w2, h2) {
+        return !((x1 > (x2 + w2)) || ((x1 + w1) < x2)) && !((y1 > (y2 + h2)) || ((y1 + h1) < y2));
+    }
+
+    function bulletOverlap(object) {
+        return rectsOverlap(x, y, lastX - x, lastY - y, object.x, object.y, object.width, object.height);
+    }
+
+    function collideOnWall(objects) {
+        for (let i = 0; i < objects.length; i++) {
+            let obj = objects[i];
+            if (bulletOverlap(obj)) {
+                setOut(true);
+            }
+        }
+    }
+
     return {
         draw:draw, move:move, isInWindow:isInWindow, isOut:isOut, setOut:setOut, data:data, getX:getX, getY:getY, getWidth:getWidth, getHeight:getHeight, getLastX:getLastX, getLastY:getLastY,
-        setWidth:setWidth, setHeight:setHeight
+        setWidth:setWidth, setHeight:setHeight, collideOnWall:collideOnWall
     };
 }

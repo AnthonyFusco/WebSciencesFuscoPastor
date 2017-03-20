@@ -14,7 +14,7 @@ let isStarted = false;
 function initSocket(username) {
     //let socket = io.connect('http://192.168.43.158:8082');
     // let socket = io.connect('http://192.168.43.3:8082');
-     //let socket = io.connect('http://127.0.0.1:8082');
+    //let socket = io.connect('http://127.0.0.1:8082');
     let socket = io.connect('http://192.168.43.38:8082');
 
     socket.on('connect', function () {
@@ -37,7 +37,7 @@ function initSocket(username) {
         ul.appendChild(li);
     });
 
-    socket.on('endgame', function(loosername){
+    socket.on('endgame', function (loosername) {
         document.getElementById('button-restart').style.display = 'initial';
     });
 
@@ -55,7 +55,7 @@ function initSocket(username) {
         socket.emit('sendchat', message);
     }
 
-    function restartGame(){
+    function restartGame() {
         socket.emit('iwantrestart');
     }
 
@@ -143,13 +143,47 @@ const GameFramework = function () {
     let players = {};
 
     let sceneObjects = [];
-    for (let i = 0; i < 10; i++) {
-        sceneObjects.push(new SceneObject(i * 100, i * 100, 100, 100))
+    let widthSceneObject = w / 20;
+    let heightSceneObject = h / 10;
+
+    /*for (let i = 0; i < 10; i++) {
+        sceneObjects.push(new SceneObject(i * widthSceneObject, i * heightSceneObject, widthSceneObject, heightSceneObject))
     }
 
-    sceneObjects.push(new SceneObject(1000, 500, 100, 100));
-    sceneObjects.push(new SceneObject(1100, 500, 100, 100));
-    sceneObjects.push(new SceneObject(1200, 500, 100, 100));
+    sceneObjects.push(new SceneObject(1000, 500, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(1100, 500, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(1200, 500, widthSceneObject, heightSceneObject));*/
+    sceneObjects.push(new SceneObject(widthSceneObject, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 2, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 2, heightSceneObject * 8, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 4, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 4, heightSceneObject * 8, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 5, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+
+    sceneObjects.push(new SceneObject(widthSceneObject * 3, heightSceneObject * 6, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 4, heightSceneObject * 5, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 5, heightSceneObject * 4, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 6, heightSceneObject * 3, widthSceneObject, heightSceneObject));
+
+    sceneObjects.push(new SceneObject(widthSceneObject * 7, heightSceneObject * 3, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 8, heightSceneObject * 3, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 9, heightSceneObject * 3, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 10, heightSceneObject * 3, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 11, heightSceneObject * 3, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 12, heightSceneObject * 3, widthSceneObject, heightSceneObject));
+
+    sceneObjects.push(new SceneObject(widthSceneObject * 13, heightSceneObject * 3, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 14, heightSceneObject * 4, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 15, heightSceneObject * 5, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 16, heightSceneObject * 6, widthSceneObject, heightSceneObject));
+
+    sceneObjects.push(new SceneObject(widthSceneObject * 14, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 15, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 15, heightSceneObject * 8, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 17, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 17, heightSceneObject * 8, widthSceneObject, heightSceneObject));
+    sceneObjects.push(new SceneObject(widthSceneObject * 18, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+
     sceneObjects.sort(function (a, b) {
         return a.x - b.x
     });
@@ -158,24 +192,46 @@ const GameFramework = function () {
         ctx.clearRect(0, 0, w, h);
 
         sceneObjects.forEach(function (obj) {
-            obj.draw(ctx);
-        });
+         obj.draw(ctx);
+         });
+
+        //DONT DELETE
+        //DONT DELETE
+        //DONT DELETE
+        //DONT DELETE
+        /*if (username !== "") {
+            let low = sceneObjects.binarySearch(players[username].getCoords().x, compareLow).option_low;
+            if (low == -1) {
+                low = 0;
+            }
+            let high = sceneObjects.binarySearch(players[username].getCoords().x + players[username].getSpriteWidth(), compareHigh).option_high;
+
+            for (let i = low; i < high; i++) {
+                sceneObjects[i].draw(ctx);
+            }
+        } else {
+            sceneObjects.forEach(function (obj) {
+                obj.draw(ctx);
+            });
+        }*/
+        //plaze
 
         for (let player in players) {
             let bullets = players[player].bullets;
             let otherBullets = [];
-            for(let other in players) {
+            for (let other in players) {
                 otherBullets = otherBullets.concat(players[other].bullets);
             }
             bullets.forEach(function (obj) {
                 obj.draw(ctx);
+                obj.collideOnWall(sceneObjects);
                 obj.isInWindow();
                 obj.move(delta);
             });
 
             //remove the bullets
-            for(let i = 0; i < bullets.length; i++) {
-                if(bullets[i].isOut()){
+            for (let i = 0; i < bullets.length; i++) {
+                if (bullets[i].isOut()) {
                     bullets.splice(i, 1);
                 }
             }
@@ -252,14 +308,14 @@ const GameFramework = function () {
             }
         });
 
-        socket.on("playerShooted", function(username, life){
+        socket.on("playerShooted", function (username, life) {
             players[username].setLife(life);
-            if (life <= 0){
+            if (life <= 0) {
                 socket.emit('endgame', username);
             }
         });
 
-        socket.on("newBullet", function(serverUsername, data){
+        socket.on("newBullet", function (serverUsername, data) {
             players[serverUsername].bullets.push(new Bullet(data.x, data.y, data.mousePosX, data.mousePosY, w, h, serverUsername));
         });
         //add the listener to the main, window object, and update the states
@@ -309,7 +365,8 @@ const GameFramework = function () {
             socket.emit("shoot", bullet.data);
         }, false);
 
-        canvas.addEventListener('drag', function(evt){}, false);
+        canvas.addEventListener('drag', function (evt) {
+        }, false);
 
         fpsContainer = document.createElement('div');
         document.body.appendChild(fpsContainer);
