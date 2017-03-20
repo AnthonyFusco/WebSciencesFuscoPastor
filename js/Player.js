@@ -6,7 +6,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     let vx = 0;
     let XSPEED = 300;
-    let YSPEED = 500;
+    let YSPEED = 1500;
     let GSPEED = 100;
     let vy = 0;
     let g = GSPEED;
@@ -115,19 +115,16 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         }
         if (playerOverlap(bottomFace) && bottomFace.isValid(x, getSpriteWidth())) {
             y = bottomFace.onCollide();
-            grounded = true;
             vx = 0;
             vy = 0;
         }
         if (playerOverlap(leftFace) && leftFace.isValid(y, getSpriteHeight())) {
             x = leftFace.onCollide(getSpriteWidth());
-            grounded = true;
             vx = 0;
             isMovementBlocked = true;
         }
         if (playerOverlap(rightFace) && rightFace.isValid(y, getSpriteHeight())) {
             x = rightFace.onCollide();
-            grounded = true;
             vx = 0;
             isMovementBlocked = true;
         }
@@ -164,12 +161,6 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
                     onOverlap(obj);
                     return;
                 }
-                // if (x != oldX + deltaX) {x = x + Math.sign(deltaX);}
-                // if (y != oldY + deltaY) {y = y + Math.sign(deltaY);}
-                /*if (playerOverlap(obj)) {
-                 onOverlap(obj);
-                 return;
-                 }*/
             }
         }
         x += deltaX;
@@ -178,7 +169,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     let move = function (delta, objects) {
         let isMoving = false;
-        if (inputStates.up) {
+        if (inputStates.up && grounded) {
             vy = -YSPEED;
             grounded = false;
             isMoving = false;
