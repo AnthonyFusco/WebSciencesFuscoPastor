@@ -153,6 +153,7 @@ const GameFramework = function () {
 
     sceneObjects.push(new SceneObject(1000, 500, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(1100, 500, widthSceneObject, heightSceneObject));
+
     sceneObjects.push(new SceneObject(1200, 500, widthSceneObject, heightSceneObject));*/
     sceneObjects.push(new SceneObject(widthSceneObject, heightSceneObject * 9, widthSceneObject, heightSceneObject));
     sceneObjects.push(new SceneObject(widthSceneObject * 2, heightSceneObject * 9, widthSceneObject, heightSceneObject));
