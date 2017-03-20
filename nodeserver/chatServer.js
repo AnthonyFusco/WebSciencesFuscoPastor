@@ -36,9 +36,9 @@ io.sockets.on('connection', function (socket) {
         io.sockets.emit("setcoords", socket.username, coords);
     });
 
-    socket.on("ihavebeenshot", function(life){
-        socket.life = life;
-        io.sockets.emit("playerShooted", socket.username, life);
+    socket.on("iShotYou", function(life, playerName){
+        players[playerName].life = life;
+        io.sockets.emit("playerShooted", playerName, life);
     });
 
     socket.on("shoot", function(data){

@@ -34,7 +34,7 @@ function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username)
         lastY = y;
         x -= calcDistanceToMove(delta, vx)*Math.cos(angle);
         y -= calcDistanceToMove(delta, vy)*Math.sin(angle);
-        console.log("bite " + x + " " + lastX);
+        //console.log("bite " + x + " " + lastX);
     };
 
     let isInWindow = function () {

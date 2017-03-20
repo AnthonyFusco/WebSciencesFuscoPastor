@@ -18,10 +18,10 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     let bullets = [];
     let life = 10;
 
-    let shooted = function (bulletPower) {
+    let shooted = function (bulletPower, playerName) {
         life = life - bulletPower;
         console.log("life " + life);
-        socket.emit("ihavebeenshot", life);
+        socket.emit("iShotYou", life, playerName);
     };
 
     let shoot = function (bullet) {
@@ -217,16 +217,12 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     };
 
     function amIShoot(otherBullets, playerName) {
-        //console.log("size " + otherBullets.length);
         otherBullets.forEach(function (bullet) {
             //console.log("name " + playerName +" bullet " + bullet.data.username);
             if (playerName !== bullet.data.username) {
-                //let bulletCollide = bullet;
-                //bulletCollide.setWidth() = bullet.getX() - bullet.getLastX();
-                //bulletCollide.height = bullet.getY() - bullet.getLastY();
-                console.log(bullet.getX() + " " + bullet.getLastX());
+                //console.log(bullet.getX() + " " + bullet.getLastX());
                 if (rectsOverlap(x, y, getSpriteWidth(), getSpriteHeight(), bullet.getX(), bullet.getY(), bullet.getX() - bullet.getLastX(), bullet.getY() - bullet.getLastY())) {
-                    shooted(1);
+                    shooted(1, playerName);
                     bullet.setOut(true);
                 }
             }
