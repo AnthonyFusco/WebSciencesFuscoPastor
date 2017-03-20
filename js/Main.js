@@ -21,6 +21,7 @@ function initSocket(username) {
     });
 
     socket.on('startgame', function (listPlayers) {
+        document.getElementById('button-restart').style.display = 'none';
         game.initPlayers(listPlayers);
         game.start();
     });
@@ -34,10 +35,7 @@ function initSocket(username) {
     });
 
     socket.on('endgame', function(loosername){
-        let restart = confirm(loosername + " a perdu ! Rejouer ?");
-        if(restart){
-            socket.emit('iwantrestart');
-        }
+        document.getElementById('button-restart').style.display = 'initial';
     });
 
     let data = document.querySelector("#input-message");
@@ -54,8 +52,12 @@ function initSocket(username) {
         socket.emit('sendchat', message);
     }
 
-    socket.sendMessage = sendMessage;
+    function restartGame(){
+        socket.emit('iwantrestart');
+    }
 
+    socket.sendMessage = sendMessage;
+    socket.restartGame = restartGame;
     return socket;
 }
 
