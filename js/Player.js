@@ -18,16 +18,24 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     let bullets = [];
     let life = 10;
 
-    let shooted = function (bulletPower, playerName) {
-        life = life - bulletPower;
-        socket.emit("iShotYou", life, playerName);
-    };
-
     let getSpriteWidth = function () {
         return anim.animations[animName].width;
     };
     let getSpriteHeight = function () {
         return anim.animations[animName].height;
+    };
+    let getCoords = function () {
+        return {x: x, y: y/*, vx:vx,vy:vy*/};
+    };
+    let setCoords = function (nx, ny) {
+        x = nx;
+        y = ny;
+    };
+    let setLife = function (newLife) {
+        life = newLife;
+    };
+    let getLife = function () {
+        return life;
     };
 
     let animParams = {
@@ -39,50 +47,8 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         return (speed * delta) / 1000;
     };
 
-    let isInWindow = function () {
-        if ((x + getSpriteWidth()) > canvasWidth) {
-            x = canvasWidth - getSpriteWidth();
-            vx = 0;
-            grounded = true;
-            isMovementBlocked = true;
-        } else if (x < 0) {
-            x = 0;
-            vx = 0;
-            grounded = true;
-            isMovementBlocked = true;
-        }
-        if ((y + getSpriteHeight()) >= canvasHeight) {
-            y = canvasHeight - getSpriteHeight();
-            g = 0;
-            vx = 0;
-            vy = 0;
-            grounded = true;
-        }
-    };
-
     function rectsOverlap(x1, y1, w1, h1, x2, y2, w2, h2) {
         return !((x1 > (x2 + w2)) || ((x1 + w1) < x2)) && !((y1 > (y2 + h2)) || ((y1 + h1) < y2));
-    }
-
-    function playerOverlap(object) {
-        //todo height and width of the sprites ?
-        return rectsOverlap(x, y, getSpriteWidth(), getSpriteHeight(), object.x, object.y, object.width, object.height);
-    }
-
-    function onPlayerOverlap(objects) {
-        let low = objects.binarySearch(x, compareLow).option_low;
-        if (low == -1) {
-            low = 0;
-        }
-        let high = objects.binarySearch(x + getSpriteWidth(), compareHigh).option_high;
-
-        //console.log("low : " + low + ", high : " + high + ", x : " + x);
-        for (let i = low; i < high; i++) {
-            let obj = objects[i];
-            if (playerOverlap(obj)) {
-                onOverlap(obj);
-            }
-        }
     }
 
     function onPlayerOverlapSpikes(objects) {
@@ -92,7 +58,6 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         }
         let high = objects.binarySearch(x + getSpriteWidth(), compareHigh).option_high;
 
-        //console.log("low : " + low + ", high : " + high + ", x : " + x);
         for (let i = low; i < high; i++) {
             let obj = objects[i];
             if (playerOverlap(obj)) {
@@ -194,8 +159,6 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
          vx = 0;
          }
         vy += g;
-        /* x += calcDistanceToMove(delta, vx);
-         y += calcDistanceToMove(delta, vy);*/
         if (!isMoving) {
             isMovementBlocked = true;
         }
@@ -207,6 +170,10 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         if (life > 0) {
             ctx.translate(x, y);
             ctx.rotate(angle);
+            if (life > 5) ctx.fillStyle = 'green';
+            if (life <= 5) ctx.fillStyle = 'orange';
+            if (life <= 2) ctx.fillStyle = 'red';
+            ctx.fillRect(0, 0, getSpriteWidth() - (getSpriteWidth() / 10) * (10 - life), 4);
             if (isMovementBlocked) {
                 //if (vx == 0) {
                 anim.render(animName, ctx, 0, 0, 1);
@@ -215,6 +182,57 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
             }
         }
         ctx.restore();
+    };
+
+    let isInWindow = function () {
+        if ((x + getSpriteWidth()) > canvasWidth) {
+            x = canvasWidth - getSpriteWidth();
+            vx = 0;
+            grounded = true;
+            isMovementBlocked = true;
+        } else if (x < 0) {
+            x = 0;
+            vx = 0;
+            grounded = true;
+            isMovementBlocked = true;
+        }
+        if ((y + getSpriteHeight()) >= canvasHeight) {
+            y = canvasHeight - getSpriteHeight();
+            g = 0;
+            vx = 0;
+            vy = 0;
+            grounded = true;
+        }
+    };
+
+    function playerOverlap(object) {
+        //todo height and width of the sprites ?
+        return rectsOverlap(x, y, getSpriteWidth(), getSpriteHeight(), object.x, object.y, object.width, object.height);
+    }
+
+    function onPlayerOverlap(objects) {
+        let low = objects.binarySearch(x, compareLow).option_low;
+        if (low == -1) {
+            low = 0;
+        }
+        let high = objects.binarySearch(x + getSpriteWidth(), compareHigh).option_high;
+
+        //console.log("low : " + low + ", high : " + high + ", x : " + x);
+        for (let i = low; i < high; i++) {
+            let obj = objects[i];
+            if (playerOverlap(obj)) {
+                onOverlap(obj);
+            }
+        }
+    }
+
+    let shooted = function (bulletPower, playerName) {
+        life = life - bulletPower;
+        socket.emit("iShotYou", life, playerName);
+    };
+
+    let onShoot = function (mousePosX, mousePosY) {
+        return new Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username);
     };
 
     function amIShoot(otherBullets, playerName) {
@@ -238,31 +256,6 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         onPlayerOverlap(objects);
         onPlayerOverlapSpikes(spikesObjects);
         amIShoot(otherBullets, playerName);
-    };
-
-    let getCoords = function () {
-        return {x: x, y: y/*, vx:vx,vy:vy*/};
-    };
-
-    let setCoords = function (nx, ny/*, nvx, nvy*/) {
-        x = nx;
-        y = ny;
-        /*vx = nvx;
-         vy = nvy;*/
-    };
-
-    let setLife = function (newLife) {
-        life = newLife;
-    };
-
-    let getLife = function () {
-        return life;
-    };
-
-    let onShoot = function (mousePosX, mousePosY) {
-        let bullet = new Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username);
-        //bullets.push(bullet);
-        return bullet;
     };
 
     return {

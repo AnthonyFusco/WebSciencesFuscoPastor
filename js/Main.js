@@ -153,6 +153,11 @@ const GameFramework = function () {
     let widthSceneObject = w / 20;
     let heightSceneObject = h / 10;
 
+    //TEST 30 FPS
+    /*for(let i = 0; i < 10000; i++) {
+        sceneObjects.push(new SceneObject(widthSceneObject, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    }*/
+
     sceneObjects.push(new SceneObject(widthSceneObject, heightSceneObject * 9, widthSceneObject, heightSceneObject));
 
     sceneObjects.push(new SceneObject(widthSceneObject, heightSceneObject * 7.5, widthSceneObject / 2, heightSceneObject / 2));
@@ -212,10 +217,7 @@ const GameFramework = function () {
 
         spikeObjects.forEach(spike => spike.draw(ctx));
 
-        //DONT DELETE
-        //DONT DELETE
-        //DONT DELETE
-        //DONT DELETE
+        //COOL EFFECT
         /*if (username !== "") {
             let low = sceneObjects.binarySearch(players[username].getCoords().x, compareLow).option_low;
             if (low == -1) {
@@ -231,7 +233,6 @@ const GameFramework = function () {
                 obj.draw(ctx);
             });
         }*/
-        //plaze
 
         for (let player in players) {
             let bullets = players[player].bullets;
