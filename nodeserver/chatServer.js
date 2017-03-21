@@ -12,14 +12,27 @@ app.use(express.static('./'));
 let nbPlayersMax = 2;
 let players = {};
 let restart = 0;
+let gameRunning = false;
 io.sockets.on('connection', function (socket) {
-    socket.on('adduser', function(username){
-        socket.username = username;
-        players[username] = socket;
-        if (Object.keys(players).length == nbPlayersMax){
-            io.sockets.emit('startgame', Object.keys(players));
-        }
+    socket.on('adduser', function(){
+        socket.username = 'joueur' + (Object.keys(players).length + 1);
+        socket.emit('yourname', socket.username);
+        players[socket.username] = socket;
     });
+
+    socket.on('IWantStart', function(){
+       restart++;
+       if (restart === nbPlayersMax){
+           gameRunning = true;
+           io.sockets.emit('startgame', Object.keys(players));
+           restart = 0;
+       }
+    });
+
+    function endGame(loosername) {
+        io.sockets.emit("endgame", socket.username);
+        gameRunning = false;
+    }
 
     socket.on("keyboardevent", function(event, boolean){
         io.sockets.emit("keyboardevent", socket.username, event, boolean);
@@ -48,11 +61,11 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('iwalkedonspikes', function(){
         socket.life = 0;
-        io.sockets.emit("endgame", socket.username);
+        endGame(socket.username);
     });
 
     socket.on("endgame", function(loosername){
-        io.sockets.emit("endgame", loosername);
+        endGame(loosername);
     });
 
     socket.on('iwantrestart', function(){
@@ -64,6 +77,8 @@ io.sockets.on('connection', function (socket) {
     });
 
     setInterval(function(){
-        io.sockets.emit("givemecoords");
+        if (gameRunning){
+            io.sockets.emit("givemecoords");
+        }
     }, 125);
 });

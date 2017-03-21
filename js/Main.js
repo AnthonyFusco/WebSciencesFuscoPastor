@@ -10,22 +10,22 @@ let animations = [];
 let socket;
 let game;
 let username;
-let isStarted = false;
-function initSocket(username) {
+let gameRunning = false;
+function initSocket() {
     //let socket = io.connect('http://192.168.43.158:8082');
     // let socket = io.connect('http://192.168.43.3:8082');
-     //let socket = io.connect('http://127.0.0.1:8082');
-   let socket = io.connect('http://192.168.43.38:8082');
-
+     let socket = io.connect('http://127.0.0.1:8082');
+   // let socket = io.connect('http://192.168.43.38:8082');
+    socket.on('yourname', function(name){
+        username = name;
+    });
     socket.on('connect', function () {
-        socket.emit('adduser', username);
+        socket.emit('adduser');
     });
 
     socket.on('startgame', function (listPlayers) {
         game.initPlayers(listPlayers);
-        if (!isStarted) {
-            game.start();
-        }
+        gameRunning = true;
     });
 
     socket.on('updatechat', function (username, data) {
@@ -40,9 +40,9 @@ function initSocket(username) {
         for(let player in game.players){
             game.players[player].setLife(0);
         }
-        document.getElementById('text-looser').innerHTML = loosername + " a perdu !!!";
-        document.getElementById('text-looser').style.display = 'initial';
-        document.getElementById('button-restart').style.display = 'initial';
+        gameRunning = false;
+        game.getMenu().generate('endgame', loosername);
+        game.getMenu().setShowed(true);
     });
 
     let data = document.querySelector("#input-message");
@@ -60,8 +60,6 @@ function initSocket(username) {
     }
 
     function restartGame(){
-        document.getElementById('text-looser').style.display = 'none';
-        document.getElementById('button-restart').style.display = 'none';
         socket.emit('iwantrestart');
     }
 
@@ -129,9 +127,9 @@ function init() {
     });
 
     Promise.all(promesses).then(() => {
-        username = prompt("What's your name?");
-        socket = initSocket(username);
+        socket = initSocket();
         game = new GameFramework();
+        game.start();
     })
 }
 
@@ -153,6 +151,9 @@ const GameFramework = function () {
     let widthSceneObject = w / 20;
     let heightSceneObject = h / 10;
 
+    let menu = new Menu(canvas);
+    menu.generate('start', username);
+    menu.setShowed(true);
     //TEST 30 FPS
     /*for(let i = 0; i < 10000; i++) {
         sceneObjects.push(new SceneObject(widthSceneObject, heightSceneObject * 9, widthSceneObject, heightSceneObject));
@@ -285,11 +286,20 @@ const GameFramework = function () {
         return delta;
     }
 
+    function animateMenu(delta){
+        ctx.clearRect(0, 0, w, h);
+        menu.draw(ctx);
+    }
+
     const mainLoop = function (time) {
         measureFPS(time);
         // number of ms since last frame draw
         let delta = timer(time);
-        animate(delta);
+        if (menu.isShowed()){
+            animateMenu(delta);
+        }else{
+            animate(delta);
+        }
         requestAnimationFrame(mainLoop);
     };
 
@@ -299,7 +309,6 @@ const GameFramework = function () {
 
     const start = function () {
         console.log("loaded");
-        isStarted = true;
         socket.on('keyboardevent', function (usernameServer, event, boolean) {
             if (usernameServer !== username) {
                 if (event === 37) {
@@ -338,6 +347,7 @@ const GameFramework = function () {
         });
         //add the listener to the main, window object, and update the states
         window.addEventListener('keydown', function (event) {
+            if (!gameRunning) return false;
             if (event.keyCode === 37 && !players[username].inputStates.left) {
                 players[username].inputStates.left = true;
                 sendKeyboardEvent(event.keyCode, true);
@@ -358,31 +368,43 @@ const GameFramework = function () {
 
         //if the key will be released, change the states object
         window.addEventListener('keyup', function (event) {
-            if (event.keyCode === 37 && players[username].inputStates.left) {
-                players[username].inputStates.left = false;
-            } else if (event.keyCode === 38 && players[username].inputStates.up) {
-                players[username].inputStates.up = false;
-            } else if (event.keyCode === 39 && players[username].inputStates.right) {
-                players[username].inputStates.right = false;
-            } else if (event.keyCode === 40 && players[username].inputStates.down) {
-                players[username].inputStates.down = false;
-            } else if (event.keyCode === 32 && players[username].inputStates.space) {
-                players[username].inputStates.space = false;
+            if (!menu.isShowed() && gameRunning){
+                if (event.keyCode === 37 && players[username].inputStates.left) {
+                    players[username].inputStates.left = false;
+                } else if (event.keyCode === 38 && players[username].inputStates.up) {
+                    players[username].inputStates.up = false;
+                } else if (event.keyCode === 39 && players[username].inputStates.right) {
+                    players[username].inputStates.right = false;
+                } else if (event.keyCode === 40 && players[username].inputStates.down) {
+                    players[username].inputStates.down = false;
+                } else if (event.keyCode === 32 && players[username].inputStates.space) {
+                    players[username].inputStates.space = false;
+                }
+                sendKeyboardEvent(event.keyCode, false);
             }
-            sendKeyboardEvent(event.keyCode, false);
         }, false);
 
         canvas.addEventListener('mousedown', function (evt) {
-            players[username].inputStates.mousedown = true;
+            if (!menu.isShowed() && gameRunning){
+                players[username].inputStates.mousedown = true;
+            }
             //players[username].inputStates.mouseButton = evt.button;
         }, false);
         canvas.addEventListener('mouseup', function (evt) {
-            players[username].inputStates.mousedown = false;
-            //let rect = canvas.getBoundingClientRect();
-            if (players[username].getLife() > 0){
-                let bullet = players[username].onShoot(evt.clientX, evt.clientY);
-                socket.emit("shoot", bullet.data);
+            if (menu.isShowed()){
+                menu.onClick(evt);
+            }else{
+                if (gameRunning){
+                    players[username].inputStates.mousedown = false;
+                    //let rect = canvas.getBoundingClientRect();
+                    if (players[username].getLife() > 0){
+                        let bullet = players[username].onShoot(evt.clientX, evt.clientY);
+                        socket.emit("shoot", bullet.data);
+                    }
+                }
+
             }
+
         }, false);
 
         canvas.addEventListener('drag', function (evt) {
@@ -394,10 +416,15 @@ const GameFramework = function () {
         requestAnimationFrame(mainLoop);
     };
 
+    let getMenu = function () {
+        return menu;
+    }
+
     return {
         start: start,
         initPlayers: initPlayers,
-        players:players
+        players:players,
+        getMenu:getMenu
     };
 };
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
