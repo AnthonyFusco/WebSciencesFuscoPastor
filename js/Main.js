@@ -14,8 +14,8 @@ let isStarted = false;
 function initSocket(username) {
     //let socket = io.connect('http://192.168.43.158:8082');
     // let socket = io.connect('http://192.168.43.3:8082');
-     //let socket = io.connect('http://127.0.0.1:8082');
-    let socket = io.connect('http://192.168.43.38:8082');
+     let socket = io.connect('http://127.0.0.1:8082');
+   //let socket = io.connect('http://192.168.43.38:8082');
 
     socket.on('connect', function () {
         socket.emit('adduser', username);
@@ -158,12 +158,12 @@ const GameFramework = function () {
     sceneObjects.push(new SceneObject(widthSceneObject, heightSceneObject * 7.5, widthSceneObject / 2, heightSceneObject / 2));
     sceneObjects.push(new SceneObject(widthSceneObject * 2, heightSceneObject * 6.5, widthSceneObject / 2, heightSceneObject / 2));
 
-    sceneObjects.push(new SceneObject(widthSceneObject * 2, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    spikeObjects.push(new SpikeSceneObject(widthSceneObject * 2, heightSceneObject * 9.5, widthSceneObject, heightSceneObject / 2));
     sceneObjects.push(new SceneObject(widthSceneObject * 2, heightSceneObject * 8.5, widthSceneObject, heightSceneObject / 2));
 
-    spikeObjects.push(new SpikeSceneObject(widthSceneObject * 3, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    spikeObjects.push(new SpikeSceneObject(widthSceneObject * 3, heightSceneObject * 9.5, widthSceneObject, heightSceneObject / 2));
 
-    sceneObjects.push(new SceneObject(widthSceneObject * 4, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    spikeObjects.push(new SpikeSceneObject(widthSceneObject * 4, heightSceneObject * 9.5, widthSceneObject, heightSceneObject / 2));
     sceneObjects.push(new SceneObject(widthSceneObject * 4, heightSceneObject * 8.5, widthSceneObject, heightSceneObject / 2));
     sceneObjects.push(new SceneObject(widthSceneObject * 5, heightSceneObject * 9, widthSceneObject, heightSceneObject));
 
@@ -186,12 +186,12 @@ const GameFramework = function () {
     sceneObjects.push(new SceneObject(widthSceneObject * 16, heightSceneObject * 5.5, widthSceneObject, heightSceneObject / 2));
 
     sceneObjects.push(new SceneObject(widthSceneObject * 14, heightSceneObject * 9, widthSceneObject, heightSceneObject));
-    sceneObjects.push(new SceneObject(widthSceneObject * 15, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    spikeObjects.push(new SpikeSceneObject(widthSceneObject * 15, heightSceneObject * 9.5, widthSceneObject, heightSceneObject / 2));
     sceneObjects.push(new SceneObject(widthSceneObject * 15, heightSceneObject * 8.5, widthSceneObject, heightSceneObject / 2));
 
-    spikeObjects.push(new SpikeSceneObject(widthSceneObject * 16, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    spikeObjects.push(new SpikeSceneObject(widthSceneObject * 16, heightSceneObject * 9.5, widthSceneObject, heightSceneObject / 2));
 
-    sceneObjects.push(new SceneObject(widthSceneObject * 17, heightSceneObject * 9, widthSceneObject, heightSceneObject));
+    spikeObjects.push(new SpikeSceneObject(widthSceneObject * 17, heightSceneObject * 9.5, widthSceneObject, heightSceneObject / 2));
     sceneObjects.push(new SceneObject(widthSceneObject * 17, heightSceneObject * 8.5, widthSceneObject, heightSceneObject / 2));
 
     sceneObjects.push(new SceneObject(widthSceneObject * 18.5, heightSceneObject * 7.5, widthSceneObject / 2, heightSceneObject / 2));
@@ -347,11 +347,11 @@ const GameFramework = function () {
                 players[username].inputStates.right = true;
                 sendKeyboardEvent(event.keyCode, true);
             } else if (event.keyCode === 40 && !players[username].inputStates.down) {
-                players[username].inputStates.right = true;
+                players[username].inputStates.down = true;
                 sendKeyboardEvent(event.keyCode, true);
             } else if (event.keyCode === 32 && !players[username].inputStates.space) {
-                players[username].inputStates.space = true;
-                sendKeyboardEvent(event.keyCode, true);
+                //players[username].inputStates.space = true;
+                //sendKeyboardEvent(event.keyCode, true);
             }
         }, false);
 
