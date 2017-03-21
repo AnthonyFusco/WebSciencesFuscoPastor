@@ -322,7 +322,7 @@ const GameFramework = function () {
 
         socket.on("setcoords", function (usernameServer, coords) {
             if (usernameServer !== username) {
-                players[usernameServer].setCoords(coords.x, coords.y/*, coords.vx, coords.vy*/);
+                players[usernameServer].setCoords(coords.x, coords.y);
             }
         });
 
@@ -348,8 +348,8 @@ const GameFramework = function () {
                 players[username].inputStates.right = true;
                 sendKeyboardEvent(event.keyCode, true);
             } else if (event.keyCode === 40 && !players[username].inputStates.down) {
-                players[username].inputStates.down = true;
-                sendKeyboardEvent(event.keyCode, true);
+                //players[username].inputStates.down = true;
+                //sendKeyboardEvent(event.keyCode, true);
             } else if (event.keyCode === 32 && !players[username].inputStates.space) {
                 //players[username].inputStates.space = true;
                 //sendKeyboardEvent(event.keyCode, true);

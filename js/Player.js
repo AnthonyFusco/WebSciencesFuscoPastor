@@ -151,7 +151,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         }
         if (inputStates.down) {
             animName = "forward";
-            isMoving = true;
+            //isMoving = true;
         }
         if (inputStates.space) {
         }
@@ -188,12 +188,10 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
         if ((x + getSpriteWidth()) > canvasWidth) {
             x = canvasWidth - getSpriteWidth();
             vx = 0;
-            grounded = true;
             isMovementBlocked = true;
         } else if (x < 0) {
             x = 0;
             vx = 0;
-            grounded = true;
             isMovementBlocked = true;
         }
         if ((y + getSpriteHeight()) >= canvasHeight) {
