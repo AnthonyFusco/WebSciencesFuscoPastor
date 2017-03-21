@@ -262,7 +262,11 @@ const GameFramework = function () {
     }
 
     function initPlayers(playernames) {
-        playernames.forEach(name => players[name] = new Player(1000, 100, w, h, animations[0]));
+        for(let i = 0; i < playernames.length; i++){
+            let player = new Player(0, 0, w, h, animations[0]);
+            player.setCoords((w - player.getSpriteWidth() - 10) * (i % 2), 100);
+            players[playernames[i]] = player;
+        }
     }
 
     const measureFPS = function (newTime) {
