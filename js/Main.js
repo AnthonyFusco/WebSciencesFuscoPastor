@@ -7,6 +7,7 @@ window.addEventListener("keydown", function (e) {
     }
 }, false);
 let animations = [];
+var textures = [];
 let socket;
 let game;
 let username;
@@ -120,11 +121,18 @@ function compareHigh(a, b) {
 
 function init() {
 
+    textures.push(new TextureSet("metalTexture.jpg"), new TextureSet("lava.png"), new TextureSet("night.jpg"), new TextureSet("blockstone.jpg"));
     animations.push(new AnimationsSet("woman"));
+
+    let texturePromesses = textures.map(function (texture) {
+        return texture.getRequest();
+    });
 
     let promesses = animations.map(function (animation) {
         return animation.getRequest();
     });
+
+    promesses.concat(texturePromesses);
 
     Promise.all(promesses).then(() => {
         socket = initSocket();
@@ -211,6 +219,10 @@ const GameFramework = function () {
 
     function animate(delta) {
         ctx.clearRect(0, 0, w, h);
+        let night = textures[2].textureImage;
+        ctx.drawImage(night,
+            0, 0,
+            w, h);
 
         sceneObjects.forEach(function (obj) {
             obj.draw(ctx);

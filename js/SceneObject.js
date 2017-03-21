@@ -53,7 +53,10 @@ function SceneObject(x, y, width, height) {
     let draw = function (ctx) {
         ctx.save();
         ctx.translate(x, y);
-        ctx.fillRect(0, 0, width, height);
+        //ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(textures[3].textureImage,
+            0, 0,
+            width, height);
         ctx.restore();
     };
 

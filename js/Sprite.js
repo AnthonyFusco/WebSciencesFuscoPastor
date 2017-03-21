@@ -7,7 +7,8 @@ function AnimationsSet(img) {
             var sprite = new Sprite(spritesheet, 0, yLineForCurrentDir,
                 animation.width, animation.height,
                 animation.nbFrames,
-                animation.nbTicksBetweenRedraws);
+                animation.nbTicksBetweenRedraws,
+                animation.firstPos);
             animations[animation.nom] = sprite;
         });
     };
@@ -62,12 +63,12 @@ function SpriteImage(img, x, y, width, height) {
     return { render: render }
 }
 
-function Sprite(spritesheet, x, y, width, height, nbImages, nbFramesOfAnimationBetweenRedraws) {
+function Sprite(spritesheet, x, y, width, height, nbImages, nbFramesOfAnimationBetweenRedraws, firstPos) {
     let spriteImages = [];
 
 
     for(var i = 0; i < nbImages; i++) {
-        spriteImages[i] = new SpriteImage(spritesheet, x + i * width, y, width, height);
+        spriteImages[i] = new SpriteImage(spritesheet, x + i * width + (firstPos * width), y, width, height);
     }
 
     let renderMoving = function(ctx, x, y, scale, owner) {
