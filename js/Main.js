@@ -121,7 +121,7 @@ function compareHigh(a, b) {
 
 function init() {
 
-    textures.push(new TextureSet("metalTexture.jpg"), new TextureSet("lava.png"), new TextureSet("night.jpg"), new TextureSet("blockstone.jpg"));
+    textures.push(new TextureSet("metalTexture.jpg"), new TextureSet("lava.png"), new TextureSet("night.jpg"), new TextureSet("blockstone.jpg"), new TextureSet('arrow.png'));
     animations.push(new AnimationsSet("archer"));
 
     let texturePromesses = textures.map(function (texture) {
@@ -359,7 +359,7 @@ const GameFramework = function () {
         });
 
         socket.on("newBullet", function (serverUsername, data) {
-            players[serverUsername].bullets.push(new Bullet(data.x, data.y, data.mousePosX, data.mousePosY, w, h, serverUsername));
+            players[serverUsername].bullets.push(new Bullet(data.x, data.y + 50, data.mousePosX, data.mousePosY, w, h, serverUsername));
         });
         //add the listener to the main, window object, and update the states
         window.addEventListener('keydown', function (event) {

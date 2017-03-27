@@ -6,7 +6,7 @@ function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username)
 
     let lastX = x;
     let lastY = y;
-    let width = 10;
+    let width = 65;
     let height = 10;
     let XSPEED = 1000;
     let YSPEED = 10;
@@ -23,8 +23,10 @@ function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username)
     let draw = function (ctx) {
         ctx.save();
         ctx.translate(x, y);
-        ctx.rotate(angle);
-        ctx.fillRect(0, 0, width, height);
+        ctx.rotate(angle + Math.PI);
+        ctx.drawImage(textures[4].textureImage,
+            0, 0,
+            width, height);
         ctx.restore();
     };
 

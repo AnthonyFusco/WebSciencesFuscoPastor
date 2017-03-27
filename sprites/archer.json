@@ -18,6 +18,15 @@
       "nbFrames" : 6,
       "nbTicksBetweenRedraws" : 5,
       "firstPos" : 0
+    },
+    {
+      "line":2,
+      "nom": "shootright",
+      "width": 75,
+      "height": 130,
+      "nbFrames" : 4,
+      "nbTicksBetweenRedraws" : 5,
+      "firstPos" : 0
     }
   ]
 }
