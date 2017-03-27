@@ -122,7 +122,7 @@ function compareHigh(a, b) {
 function init() {
 
     textures.push(new TextureSet("metalTexture.jpg"), new TextureSet("lava.png"), new TextureSet("night.jpg"), new TextureSet("blockstone.jpg"));
-    animations.push(new AnimationsSet("woman"));
+    animations.push(new AnimationsSet("archer"));
 
     let texturePromesses = textures.map(function (texture) {
         return texture.getRequest();

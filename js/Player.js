@@ -11,7 +11,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
     let vy = 0;
     let g = GSPEED;
     let angle = 0.0;
-    let animName = "forward";
+    let animName = "left";
     let grounded = false;
     let inputStates = {right: false, left: false, up: false, down: false, space: false, mousedown: false};
     let isMovementBlocked = true;
@@ -150,7 +150,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
             isMoving = true;
         }
         if (inputStates.down) {
-            animName = "forward";
+            //animName = "forward";
             //isMoving = true;
         }
         if (inputStates.space) {

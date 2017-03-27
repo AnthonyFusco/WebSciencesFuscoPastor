@@ -1,0 +1,23 @@
+{
+  "entity": "archer",
+  "animations": [
+    {
+      "line":0,
+      "nom": "right",
+      "width": 75,
+      "height": 130,
+      "nbFrames" : 6,
+      "nbTicksBetweenRedraws" : 5,
+      "firstPos" : 0
+    },
+    {
+      "line":1,
+      "nom": "left",
+      "width": 75,
+      "height": 130,
+      "nbFrames" : 6,
+      "nbTicksBetweenRedraws" : 5,
+      "firstPos" : 0
+    }
+  ]
+}
