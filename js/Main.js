@@ -16,7 +16,7 @@ function initSocket() {
     //let socket = io.connect('http://192.168.43.158:8082');
     // let socket = io.connect('http://192.168.43.3:8082');
      let socket = io.connect('http://127.0.0.1:8082');
-   // let socket = io.connect('http://192.168.43.38:8082');
+    //let socket = io.connect('http://192.168.43.38:8082');
     socket.on('yourname', function(name){
         username = name;
     });
@@ -121,7 +121,8 @@ function compareHigh(a, b) {
 
 function init() {
 
-    textures.push(new TextureSet("metalTexture.jpg"), new TextureSet("lava.png"), new TextureSet("night.jpg"), new TextureSet("blockstone.jpg"), new TextureSet('arrow.png'));
+    textures.push(new TextureSet("metalTexture.jpg"), new TextureSet("lava.png"), new TextureSet("night.jpg"),
+        new TextureSet("blockstone.jpg"), new TextureSet('arrow.png'), new TextureSet('sky.jpg'), new TextureSet('crosshair.png'));
     animations.push(new AnimationsSet("archer"));
 
     let texturePromesses = textures.map(function (texture) {
@@ -158,6 +159,11 @@ const GameFramework = function () {
     let spikeObjects = [];
     let widthSceneObject = w / 20;
     let heightSceneObject = h / 10;
+    let crosshairX = 0;
+    let crosshairY = 0;
+    let night = textures[2].textureImage;
+    let sky = textures[5].textureImage;
+    let crosshair = textures[6].textureImage;
 
     let menu = new Menu(canvas);
     menu.generate('start', username);
@@ -219,10 +225,14 @@ const GameFramework = function () {
 
     function animate(delta) {
         ctx.clearRect(0, 0, w, h);
-        let night = textures[2].textureImage;
-        ctx.drawImage(night,
+
+        ctx.drawImage(sky,
             0, 0,
             w, h);
+
+        ctx.drawImage(crosshair,
+            crosshairX, crosshairY,
+            50, 50);
 
         sceneObjects.forEach(function (obj) {
             obj.draw(ctx);
@@ -423,6 +433,11 @@ const GameFramework = function () {
 
         }, false);
 
+        canvas.addEventListener('mousemove', function (evt) {
+            crosshairX = evt.clientX;
+            crosshairY = evt.clientY;
+        }, false);
+
         canvas.addEventListener('drag', function (evt) {
         }, false);
 
@@ -434,7 +449,7 @@ const GameFramework = function () {
 
     let getMenu = function () {
         return menu;
-    }
+    };
 
     return {
         start: start,
