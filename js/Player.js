@@ -2,7 +2,7 @@
  * Created by Anthony Fusco on 27/02/2017.
  */
 // using functional inheritance
-function Player(x, y, canvasWidth, canvasHeight, anim) {
+function Player(x, y, canvasWidth, canvasHeight, anim, socket) {
 
     let vx = 0;
     let XSPEED = 300;
@@ -53,7 +53,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     function onPlayerOverlapSpikes(objects) {
         let low = objects.binarySearch(x, compareLow).option_low;
-        if (low == -1) {
+        if (low === -1) {
             low = 0;
         }
         let high = objects.binarySearch(x + getSpriteWidth(), compareHigh).option_high;
@@ -97,7 +97,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     let checkCorrectMovement = function (deltaX, deltaY, objects) {
         let low = objects.binarySearch(x, compareLow).option_low;
-        if (low == -1) {
+        if (low === -1) {
             low = 0;
         }
         let high = objects.binarySearch(x + getSpriteWidth() + deltaX, compareHigh).option_high;
@@ -114,10 +114,10 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
             }
             while (max > 0) {
                 max--;
-                if (oldX != x + deltaX) {
+                if (oldX !== x + deltaX) {
                     oldX = oldX + Math.sign(deltaX);
                 }
-                if (oldY != y + deltaY) {
+                if (oldY !== y + deltaY) {
                     oldY = oldY + Math.sign(deltaY);
                 }
                 if (rectsOverlap(oldX, oldY, getSpriteWidth(), getSpriteHeight(), obj.x, obj.y, obj.width, obj.height)) {
@@ -210,7 +210,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim) {
 
     function onPlayerOverlap(objects) {
         let low = objects.binarySearch(x, compareLow).option_low;
-        if (low == -1) {
+        if (low === -1) {
             low = 0;
         }
         let high = objects.binarySearch(x + getSpriteWidth(), compareHigh).option_high;

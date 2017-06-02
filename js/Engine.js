@@ -1,4 +1,3 @@
-
 Array.prototype.binarySearch = function (find, comparator) {
     let option_high;
     let option_low;
@@ -255,7 +254,7 @@ const GameFramework = function (socket) {
 
     function initPlayers(playernames) {
         for(let i = 0; i < playernames.length; i++){
-            let player = new Player(0, 0, w, h, animations[0]);
+            let player = new Player(0, 0, w, h, animations[0], socket);
             player.setCoords((w - player.getSpriteWidth() - 10) * (i % 2), 100);
             players[playernames[i]] = player;
         }
