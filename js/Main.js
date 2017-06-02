@@ -27,6 +27,7 @@ function initSocket() {
     socket.on('startgame', function (listPlayers) {
         game.initPlayers(listPlayers);
         gameRunning = true;
+        game.getMenu().setShowed(false);
     });
 
     socket.on('updatechat', function (username, data) {
@@ -42,7 +43,6 @@ function initSocket() {
             game.players[player].setLife(0);
         }
         gameRunning = false;
-        game.getMenu().generate('endgame', loosername);
         game.getMenu().setShowed(true);
     });
 

@@ -25,22 +25,31 @@
     <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.css">
 </head>
 <body>
-<canvas id="myCanvas" width=1200 height=750></canvas>
-<div class="panel panel-primary pull-right" style="max-width: 500px">
-    <div class="panel-heading">Chat</div>
-    <div class="panel-body" style="max-height: 200px; overflow-y: scroll; min-height: 200px">
-        <ul class="chat">
-        </ul>
-    </div>
-    <div class="panel-footer">
-        <div class="input-group">
-            <input type="text" id="input-message" class="form-control" placeholder="Ecrire un message">
-            <span class="input-group-btn">
+<div>
+    <canvas id="myCanvas" width=1200 height=750>
+    </canvas>
+    <button
+            style="position: absolute;top: 30%; left:25%; height: 50px; width: 200px;"
+            class="btn btn-primary" id="buttonStart"
+            onclick="socket.emit('IWantStart'); $(this).hide();">Start Game</button>
+    <div class="panel panel-primary pull-right" style="max-width: 500px">
+        <div class="panel-heading">Chat</div>
+        <div class="panel-body" style="max-height: 200px; overflow-y: scroll; min-height: 200px">
+            <ul class="chat">
+            </ul>
+        </div>
+        <div class="panel-footer">
+            <div class="input-group">
+                <input type="text" id="input-message" class="form-control" placeholder="Ecrire un message">
+                <span class="input-group-btn">
                     <button class="btn btn-success" type="button" id="button-send" onclick="socket.sendMessage();">Envoyer</button>
                 </span>
+            </div>
         </div>
     </div>
 </div>
+
+
 
 </body>
 </html>

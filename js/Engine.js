@@ -187,8 +187,7 @@ const GameFramework = function (socket) {
     let sky = textures[5].textureImage;
     let crosshair = textures[6].textureImage;
 
-    let menu = new Menu(canvas);
-    menu.generate('start', username);
+    let menu = new Menu();
     menu.setShowed(true);
     createScene(sceneObjects, spikeObjects, widthSceneObject, heightSceneObject);
 
@@ -281,18 +280,11 @@ const GameFramework = function (socket) {
         return delta;
     }
 
-    function animateMenu(delta){
-        ctx.clearRect(0, 0, w, h);
-        menu.draw(ctx);
-    }
-
     const mainLoop = function (time) {
         measureFPS(time);
         // number of ms since last frame draw
         let delta = timer(time);
-        if (menu.isShowed()){
-            animateMenu(delta);
-        }else{
+        if (!menu.isShowed()){
             animate(delta);
         }
         requestAnimationFrame(mainLoop);
