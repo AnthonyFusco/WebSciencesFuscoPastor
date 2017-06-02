@@ -44,6 +44,9 @@ function initSocket() {
         }
         gameRunning = false;
         game.getMenu().setShowed(true);
+        var t = document.querySelector("tr:nth-child(" + loosername[loosername.length - 1] + ") > td.scorePlayer");
+        debugger;
+        t.innerText = "" + (parseInt(t.innerText) + 1);
     });
 
     let data = document.querySelector("#input-message");
