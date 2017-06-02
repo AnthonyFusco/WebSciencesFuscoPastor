@@ -324,12 +324,14 @@ const GameFramework = function (socket) {
         addWindowListeners(players, sendKeyboardEvent, menu);
 
         canvas.addEventListener('mousedown', function (evt) {
+            evt.preventDefault();
             if (!menu.isShowed() && gameRunning){
                 players[username].inputStates.mousedown = true;
             }
         }, false);
 
         canvas.addEventListener('mouseup', function (evt) {
+            evt.preventDefault();
             if (menu.isShowed()){
                 menu.onClick(evt);
             }else{
@@ -347,12 +349,14 @@ const GameFramework = function (socket) {
         }, false);
 
         canvas.addEventListener('mousemove', function (evt) {
+            evt.preventDefault();
             let rect = canvas.getBoundingClientRect();
             crosshairX = evt.clientX - rect.left;
             crosshairY = evt.clientY - rect.top ;
         }, false);
 
         canvas.addEventListener('drag', function (evt) {
+            evt.preventDefault();
         }, false);
 
         fpsContainer = document.createElement('div');
