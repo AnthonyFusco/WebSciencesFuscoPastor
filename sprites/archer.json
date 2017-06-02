@@ -8,7 +8,8 @@
       "height": 130,
       "nbFrames" : 6,
       "nbTicksBetweenRedraws" : 5,
-      "firstPos" : 0
+      "firstPos" : 0,
+      "scale" : 0.75
     },
     {
       "line":1,
@@ -17,7 +18,8 @@
       "height": 130,
       "nbFrames" : 6,
       "nbTicksBetweenRedraws" : 5,
-      "firstPos" : 0
+      "firstPos" : 0,
+      "scale" : 0.75
     },
     {
       "line":2,
@@ -26,7 +28,8 @@
       "height": 130,
       "nbFrames" : 4,
       "nbTicksBetweenRedraws" : 5,
-      "firstPos" : 0
+      "firstPos" : 0,
+      "scale" : 0.75
     }
   ]
 }

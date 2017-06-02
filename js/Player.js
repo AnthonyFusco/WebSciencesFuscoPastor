@@ -176,9 +176,9 @@ function Player(x, y, canvasWidth, canvasHeight, anim, socket) {
             ctx.fillRect(0, 0, getSpriteWidth() - (getSpriteWidth() / 10) * (10 - life), 4);
             if (isMovementBlocked) {
                 //if (vx == 0) {
-                anim.render(animName, ctx, 0, 0, 1);
+                anim.render(animName, ctx, 0, 0, 0.5);
             } else {
-                anim.renderMoving(animName, ctx, 0, 0, 1, animParams);
+                anim.renderMoving(animName, ctx, 0, 0, 0.5, animParams);
             }
         }
         ctx.restore();

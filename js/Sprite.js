@@ -8,7 +8,7 @@ function AnimationsSet(img) {
                 animation.width, animation.height,
                 animation.nbFrames,
                 animation.nbTicksBetweenRedraws,
-                animation.firstPos);
+                animation.firstPos, animation.scale);
             animations[animation.nom] = sprite;
         });
     };
@@ -53,7 +53,8 @@ function AnimationsSet(img) {
 
 
 function SpriteImage(img, x, y, width, height) {
-    let render = function(ctx, xPos, yPos) {
+    let render = function(ctx, xPos, yPos, scale) {
+        ctx.scale(scale, scale);
         ctx.drawImage(img,
             x, y,
             width, height,
@@ -63,16 +64,16 @@ function SpriteImage(img, x, y, width, height) {
     return { render: render }
 }
 
-function Sprite(spritesheet, x, y, width, height, nbImages, nbFramesOfAnimationBetweenRedraws, firstPos) {
+function Sprite(spritesheet, x, y, width, height, nbImages, nbFramesOfAnimationBetweenRedraws, firstPos, scale) {
     let spriteImages = [];
-
+    let scaleDim = scale;
 
     for(var i = 0; i < nbImages; i++) {
         spriteImages[i] = new SpriteImage(spritesheet, x + i * width + (firstPos * width), y, width, height);
     }
 
     let renderMoving = function(ctx, x, y, scale, owner) {
-        spriteImages[owner.currentFrame].render(ctx, x, y, scale);
+        spriteImages[owner.currentFrame].render(ctx, x, y, scaleDim);
         owner.nbCurrentTicks++;
         if(owner.nbCurrentTicks > nbFramesOfAnimationBetweenRedraws) {
             owner.currentFrame++;
@@ -83,8 +84,8 @@ function Sprite(spritesheet, x, y, width, height, nbImages, nbFramesOfAnimationB
         }
     };
     let render = function(ctx, x, y, scale) {
-        spriteImages[0].render(ctx, x, y, scale);
+        spriteImages[0].render(ctx, x, y, scaleDim);
     };
 
-    return { width : width, height : height, renderMoving : renderMoving, render : render };
+    return { width : width * scaleDim, height : height * scaleDim, renderMoving : renderMoving, render : render };
 }
