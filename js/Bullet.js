@@ -10,7 +10,7 @@ function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username)
     let height = 10;
     let XSPEED = 1000;
     let YSPEED = 10;
-    let GSPEED = 10;
+    let GSPEED = 20;
     let vx = XSPEED;
     let vy = XSPEED; //XSPEED !
     let g = GSPEED;
@@ -31,11 +31,12 @@ function Bullet(x, y, mousePosX, mousePosY, canvasWidth, canvasHeight, username)
     };
 
     let move = function (delta) {
-        //vy +- = g;
+        vy -= g;
+        console.log(vy);
         lastX = x;
         lastY = y;
-        x -= calcDistanceToMove(delta, vx)*Math.cos(angle);
-        y -= calcDistanceToMove(delta, vy)*Math.sin(angle);
+        x -= calcDistanceToMove(delta, vx) * Math.cos(angle);
+        y -= calcDistanceToMove(delta, vy) * Math.sin(angle);
     };
 
     let isInWindow = function () {

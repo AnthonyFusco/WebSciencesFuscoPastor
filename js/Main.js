@@ -14,8 +14,8 @@ let username;
 let gameRunning = false;
 function initSocket() {
     //let socket = io.connect('http://192.168.43.158:8082');
-    // let socket = io.connect('http://192.168.43.3:8082');
-     let socket = io.connect('http://127.0.0.1:8082');
+     let socket = io.connect('http://192.168.43.3:8082');
+     //let socket = io.connect('http://127.0.0.1:8082');
     //let socket = io.connect('http://192.168.43.38:8082');
     socket.on('yourname', function(name){
         username = name;
@@ -434,8 +434,9 @@ const GameFramework = function () {
         }, false);
 
         canvas.addEventListener('mousemove', function (evt) {
-            crosshairX = evt.clientX;
-            crosshairY = evt.clientY;
+            var rect = canvas.getBoundingClientRect();
+            crosshairX = evt.clientX - rect.left;
+            crosshairY = evt.clientY - rect.top ;
         }, false);
 
         canvas.addEventListener('drag', function (evt) {
