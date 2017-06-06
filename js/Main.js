@@ -7,6 +7,7 @@ window.addEventListener("keydown", function (e) {
 }, false);
 let animations = [];
 let textures = [];
+let sounds = {};
 let socket;
 let game;
 let username;
@@ -93,8 +94,26 @@ function init() {
         return animation.getRequest();
     });
 
-    promesses.concat(texturePromesses);
 
+    let promessesSounds = [];
+    let volette = new Promise(function(resolve, reject){
+        let myAudio = new Audio('./sounds/volette.mp3');
+        myAudio.addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        myAudio.load = function () {
+            resolve();
+        };
+        sounds.volette = myAudio;
+
+    });
+
+    promessesSounds.push(volette);
+
+
+    promesses.concat(texturePromesses);
+    promesses.concat(promessesSounds);
     Promise.all(promesses).then(() => {
         socket = initSocket();
         game = new GameFramework(socket);
