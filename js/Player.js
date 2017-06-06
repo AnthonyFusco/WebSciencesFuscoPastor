@@ -176,7 +176,6 @@ function Player(x, y, canvasWidth, canvasHeight, anim, socket, name) {
             if (life <= 5) ctx.fillStyle = 'orange';
             if (life <= 2) ctx.fillStyle = 'red';
             ctx.fillRect(0, 0, getSpriteWidth() - (getSpriteWidth() / 10) * (10 - life), 4);
-            ctx.fillText(name, 0, - 5);
             if (isMovementBlocked) {
                 //if (vx == 0) {
                 anim.render(animName, ctx, 0, 0, 0.5);
@@ -184,6 +183,12 @@ function Player(x, y, canvasWidth, canvasHeight, anim, socket, name) {
                 anim.renderMoving(animName, ctx, 0, 0, 0.5, animParams);
             }
         }
+        if (socket.username === name) {
+            ctx.fillStyle = 'green';
+        } else {
+            ctx.fillStyle = 'red';
+        }
+        ctx.fillText(name, 0, - 5);
         ctx.restore();
     };
 
