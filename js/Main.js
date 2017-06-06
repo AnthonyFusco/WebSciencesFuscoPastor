@@ -29,6 +29,13 @@ function initSocket() {
         game.initPlayers(listPlayers);
         gameRunning = true;
         game.getMenu().setShowed(false);
+        $("#tr" + socket.username).addClass("success");
+        $("tr").each((idx, elt) => {
+            if (!$(elt).hasClass("success")){
+                $(elt).addClass("danger");
+            }
+        })
+        //document.getElementById("tr" + socket.username).addClass("success");
     });
 
     socket.on('updatechat', function (username, data) {

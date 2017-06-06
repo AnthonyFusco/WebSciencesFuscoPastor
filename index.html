@@ -32,35 +32,43 @@
             style="position: absolute;top: 30%; left:25%; height: 50px; width: 200px;"
             class="btn btn-primary" id="buttonStart"
             onclick="socket.emit('IWantStart'); $(this).hide();">Start Game</button>
-    <div class="panel panel-primary pull-right" style="max-width: 500px">
-        <div class="panel-heading">Chat</div>
-        <div class="panel-body" style="max-height: 200px; overflow-y: scroll; min-height: 200px">
-            <ul class="chat">
-            </ul>
-        </div>
-        <div class="panel-footer">
-            <div class="input-group">
-                <input type="text" id="input-message" class="form-control" placeholder="Ecrire un message">
-                <span class="input-group-btn">
+
+    <div class="pull-right">
+        <div class="panel panel-primary" style="max-width: 500px">
+            <div class="panel-heading">Chat</div>
+            <div class="panel-body" style="max-height: 200px; overflow-y: scroll; min-height: 200px">
+                <ul class="chat">
+                </ul>
+            </div>
+            <div class="panel-footer">
+                <div class="input-group">
+                    <input type="text" id="input-message" class="form-control" placeholder="Ecrire un message">
+                    <span class="input-group-btn">
                     <button class="btn btn-success" type="button" id="button-send" onclick="socket.sendMessage();">Envoyer</button>
                 </span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel panel-primary" style="max-width: 500px">
+            <div class="panel-heading">Scores</div>
+            <div class="panel-body" style="max-height: 130px; min-height: 130px">
+                <table class="table table-bordered">
+                    <tr id="trjoueur1">
+                        <td>Joueur 1</td>
+                        <td class="scorePlayer">0</td>
+                    </tr>
+                    <tr id="trjoueur2">
+                        <td>Joueur 2</td>
+                        <td class="scorePlayer">0</td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
+
 </div>
-
-<table>
-    <tr>
-        <td>J1</td>
-        <td class="scorePlayer">0</td>
-    </tr>
-    <tr>
-        <td>J2</td>
-        <td class="scorePlayer">0</td>
-    </tr>
-</table>
-
-
 
 </body>
 </html>
