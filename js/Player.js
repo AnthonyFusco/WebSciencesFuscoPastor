@@ -2,7 +2,7 @@
  * Created by Anthony Fusco on 27/02/2017.
  */
 // using functional inheritance
-function Player(x, y, canvasWidth, canvasHeight, anim, socket) {
+function Player(x, y, canvasWidth, canvasHeight, anim, socket, name) {
 
     let vx = 0;
     let XSPEED = 300;
@@ -174,6 +174,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim, socket) {
             if (life <= 5) ctx.fillStyle = 'orange';
             if (life <= 2) ctx.fillStyle = 'red';
             ctx.fillRect(0, 0, getSpriteWidth() - (getSpriteWidth() / 10) * (10 - life), 4);
+            ctx.fillText(name, 0, - 5);
             if (isMovementBlocked) {
                 //if (vx == 0) {
                 anim.render(animName, ctx, 0, 0, 0.5);
