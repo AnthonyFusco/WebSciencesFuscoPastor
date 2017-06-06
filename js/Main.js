@@ -109,7 +109,17 @@ function init() {
 
     });
 
+    let scream = new Promise(function(resolve, reject){
+        let myAudio = new Audio('./sounds/scream.mp3');
+        myAudio.load = function () {
+            resolve();
+        };
+        sounds.scream = myAudio;
+
+    });
+
     promessesSounds.push(volette);
+    promessesSounds.push(scream);
 
 
     promesses.concat(texturePromesses);
