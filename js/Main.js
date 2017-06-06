@@ -40,12 +40,13 @@ function initSocket() {
     });
 
     socket.on('endgame', function (loosername) {
+        console.log("le joueur perdant est : " + loosername);
         for(let player in game.players){
             game.players[player].setLife(0);
         }
         gameRunning = false;
         game.getMenu().setShowed(true);
-        var t = document.querySelector("tr:nth-child(" + parseInt(loosername[loosername.length - 1]) % 2 + 1 + ") > td.scorePlayer");
+        var t = document.querySelector("tr:nth-child(" + (parseInt(loosername[loosername.length - 1]) % 2 + 1) + ") > td.scorePlayer");
         t.innerText = "" + (parseInt(t.innerText) + 1);
     });
 
