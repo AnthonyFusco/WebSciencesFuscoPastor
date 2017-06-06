@@ -19,6 +19,7 @@ function initSocket() {
     let socket = io.connect('http://192.168.43.38:8082');
     socket.on('yourname', function(name){
         username = name;
+        socket.username = name;
     });
     socket.on('connect', function () {
         socket.emit('adduser');
