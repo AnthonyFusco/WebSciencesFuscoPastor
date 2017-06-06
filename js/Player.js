@@ -61,7 +61,9 @@ function Player(x, y, canvasWidth, canvasHeight, anim, socket, name) {
         for (let i = low; i < high; i++) {
             let obj = objects[i];
             if (playerOverlap(obj)) {
-                socket.emit('iwalkedonspikes');
+                if (socket.username === name){
+                    socket.emit('iwalkedonspikes');
+                }
             }
         }
     }

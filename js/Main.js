@@ -14,8 +14,8 @@ let gameRunning = false;
 
 function initSocket() {
     //let socket = io.connect('http://192.168.43.158:8082');
-    //  let socket = io.connect('http://192.168.43.3:8082');
-    //  let socket = io.connect('http://127.0.0.1:8082');
+     //let socket = io.connect('http://192.168.43.3:8082');
+     // let socket = io.connect('http://127.0.0.1:8082');
     let socket = io.connect('http://192.168.43.38:8082');
     socket.on('yourname', function(name){
         username = name;
@@ -46,7 +46,6 @@ function initSocket() {
         gameRunning = false;
         game.getMenu().setShowed(true);
         var t = document.querySelector("tr:nth-child(" + loosername[loosername.length - 1] + ") > td.scorePlayer");
-        debugger;
         t.innerText = "" + (parseInt(t.innerText) + 1);
     });
 
