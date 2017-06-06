@@ -17,6 +17,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim, socket, name) {
     let isMovementBlocked = true;
     let bullets = [];
     let life = 10;
+    let lose = false;
 
     let getSpriteWidth = function () {
         return anim.animations[animName].width;
@@ -60,8 +61,9 @@ function Player(x, y, canvasWidth, canvasHeight, anim, socket, name) {
 
         for (let i = low; i < high; i++) {
             let obj = objects[i];
-            if (playerOverlap(obj)) {
+            if (playerOverlap(obj) && !lose) {
                 if (socket.username === name){
+                    lose = true;
                     socket.emit('iwalkedonspikes');
                 }
             }
