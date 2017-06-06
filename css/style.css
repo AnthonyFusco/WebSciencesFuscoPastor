@@ -1,6 +1,6 @@
 #myCanvas {
   border:1px solid;
-  background-color:lightGrey;
+    background: url("../sprites/MenuFond.PNG") no-repeat center center;
 
 }
 
