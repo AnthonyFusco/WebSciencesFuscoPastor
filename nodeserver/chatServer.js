@@ -30,6 +30,8 @@ io.sockets.on('connection', function (socket) {
     });
 
     function endGame(loosername) {
+        console.log("le perdant recu est " + loosername);
+        console.log("emission le perdant est " + socket.username);
         io.sockets.emit("endgame", socket.username);
         gameRunning = false;
     }
