@@ -185,6 +185,7 @@ function Player(x, y, canvasWidth, canvasHeight, anim, socket, name) {
                 anim.renderMoving(animName, ctx, 0, 0, 0.5, animParams);
             }
         }
+        ctx.scale(2, 2);
         if (socket.username === name) {
             ctx.fillStyle = 'green';
         } else {

@@ -116,7 +116,9 @@ function addSocketListeners(socket, players, w, h) {
     socket.on("playerShooted", function (serveruser, life) {
         players[serveruser].setLife(life);
         if (life <= 0) {
-            socket.emit('endgame', serveruser);
+            if (serveruser === socket.username) {
+                socket.emit('endgame', serveruser);
+            }
         }
     });
 
