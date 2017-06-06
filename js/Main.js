@@ -47,7 +47,7 @@ function initSocket() {
         game.getMenu().setShowed(true);
         var t = document.querySelector("tr:nth-child(" + (parseInt(loosername[loosername.length - 1]) + 1)%2 + ") > td.scorePlayer");
         console.log(t);
-        console.log("tr:nth-child(" + (parseInt(loosername[loosername.length - 1]) + 1)%2 + 1 + ") > td.scorePlayer");
+        console.log("tr:nth-child(" + loosername[loosername.length - 1] + ") > td.scorePlayer");
         t.innerText = "" + (parseInt(t.innerText) + 1);
     });
 
