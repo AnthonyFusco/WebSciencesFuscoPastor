@@ -48,6 +48,7 @@ function initSocket() {
     });
 
     socket.on('endgame', function (loosername) {
+        sounds["scream"].play();
         console.log("le joueur perdant est : " + loosername);
         for(let player in game.players){
             game.players[player].setLife(0);

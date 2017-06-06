@@ -117,6 +117,7 @@ function addSocketListeners(socket, players, w, h) {
         players[serveruser].setLife(life);
         if (life <= 0) {
             if (serveruser === socket.username) {
+                sounds["scream"].play();
                 socket.emit('endgame', serveruser);
             }
         }

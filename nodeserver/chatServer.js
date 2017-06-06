@@ -65,7 +65,6 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on("endgame", function(loosername){
-        sounds["scream"].play();
         endGame(loosername);
     });
 
