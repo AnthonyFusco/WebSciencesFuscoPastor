@@ -298,6 +298,9 @@ const GameFramework = function (socket) {
 
     const start = function () {
         console.log("loaded");
+
+        sounds["volette"].play();
+
         socket.on('keyboardevent', function (usernameServer, event, boolean) {
             if (usernameServer !== username) {
                 if (event === 37) {
